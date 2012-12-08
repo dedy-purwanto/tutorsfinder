@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
 
-from references.models import State, Area, EmailTemplate
+from references.models import State, Area, Subject, Level, EmailTemplate
 from emails import send_using_template
 
 def build_token(rand_min=1, rand_max=9999, range_max=5):
@@ -119,6 +119,24 @@ class TeachingExperience(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.user, self.school)
+
+
+class TeachingSubject(models.Model):
+
+    user = models.ForeignKey(User, related_name='teaching_subjects')
+    subject = models.ForeignKey(Subject)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.user, self.subject.title)
+
+
+class TeachingLevel(models.Model):
+
+    user = models.ForeignKey(User, related_name='teaching_levels')
+    level = models.ForeignKey(Level)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.user, self.level.title)
 
 
 @receiver(post_save, sender=User)
