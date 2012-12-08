@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'south',
 
     'references',
+    'accounts',
 )
 
 # A sample logging configuration. The only tangible logging
