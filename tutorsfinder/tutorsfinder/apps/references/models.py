@@ -14,6 +14,4 @@ class Area(models.Model):
     title = models.CharField(max_length=255)
 
     def __unicode__(self):
-        pass
-
-    
+        return "%s" % self.title
