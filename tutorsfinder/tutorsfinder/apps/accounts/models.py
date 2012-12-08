@@ -38,7 +38,7 @@ class ResetPasswordRequest(models.Model):
         send_using_template(template, context, self.user.email)
 
     @staticmethod
-    def create_request(user):
+    def create(user):
         # build sha1 token from a combination of 3 randomized integer
 
         request = ResetPasswordRequest()
