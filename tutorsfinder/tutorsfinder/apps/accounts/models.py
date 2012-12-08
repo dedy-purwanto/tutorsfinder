@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
 
-from references.models import EmailTemplate
+from references.models import State, Area, EmailTemplate
 from emails import send_using_template
 
 def build_token(rand_min=1, rand_max=9999, range_max=5):
@@ -85,6 +85,26 @@ class ValidationStatus(models.Model):
     class Meta:
 
         verbose_name_plural = "Validation statuses"
+
+
+class PersonalInformation(models.Model):
+
+    user = models.OneToOneField(User, related_name='details')
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    state = models.ForeignKey(State)
+    area = models.ForeignKey(Area)
+    street = models.TextField(blank=True, null=True)
+    post_code = models.CharField(max_length=16)
+    hourly_rate = models.CharField(max_length=16)
+    description = models.TextField(blank=True, null=True)
+    picture = models.ImageField('Picture', blank=True, upload_to='picture/%Y/%m/%d')
+
+    def set_name(self, name):
+        first_name = name.split()[0]
+        last_name = ' '.join(name.split()[1:])
+        self.user.first_name = first_name
+        self.user.last_name = last_name
+        self.user.save()
 
 
 @receiver(post_save, sender=User)
