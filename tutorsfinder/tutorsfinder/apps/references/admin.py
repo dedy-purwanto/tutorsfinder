@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import State, Area
+from .models import State, Area, Subject, Level
 
 
 class StateAdmin(admin.ModelAdmin):
@@ -20,5 +20,25 @@ class AreaAdmin(admin.ModelAdmin):
     )
 
 
+class SubjectAdmin(admin.ModelAdmin):
+
+    list_display = (
+            'id',
+            'title',
+            'order',
+    )
+
+
+class LevelAdmin(admin.ModelAdmin):
+
+    list_display = (
+            'id',
+            'title',
+            'order',
+    )
+
+
 admin.site.register(State, StateAdmin)
 admin.site.register(Area, AreaAdmin)
+admin.site.register(Subject, SubjectAdmin)
+admin.site.register(Level, LevelAdmin)
