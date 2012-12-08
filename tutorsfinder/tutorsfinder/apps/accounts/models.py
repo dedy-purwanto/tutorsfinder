@@ -20,4 +20,4 @@ class ValidationStatus(models.Model):
 
     class Meta:
 
-        verbose_name_plural = "Validation Statuses"
+        verbose_name_plural = "Validation statuses"
