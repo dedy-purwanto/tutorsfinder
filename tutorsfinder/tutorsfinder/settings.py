@@ -162,6 +162,8 @@ LOGGING = {
 
 #Email settings
 BCC_LIST = ('kecebongsoft@gmail.com',)
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/mail'
 
 try:
     from local_settings import *
