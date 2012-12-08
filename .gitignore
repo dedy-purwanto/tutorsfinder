@@ -1,4 +1,3 @@
 env/
-static/
 *.pyc
-local_settings.py
+tutorsfinder/tutorsfinder/local_settings.py
