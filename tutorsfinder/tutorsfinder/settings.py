@@ -1,4 +1,9 @@
 # Django settings for tutorsfinder project.
+import os, sys
+
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+
+sys.path.append(os.path.join(PROJECT_PATH, 'apps'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -121,6 +126,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 
     'south',
+
+    'references',
 )
 
 # A sample logging configuration. The only tangible logging
