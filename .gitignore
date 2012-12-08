@@ -1,0 +1,4 @@
+nv/
+static/
+*.pyc
+local_settings.py
