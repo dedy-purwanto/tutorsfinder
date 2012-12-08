@@ -129,6 +129,7 @@ INSTALLED_APPS = (
 
     'references',
     'accounts',
+    'emails',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,9 +162,12 @@ LOGGING = {
 }
 
 #Email settings
-BCC_LIST = ('kecebongsoft@gmail.com',)
+EMAIL_BCC_LIST = ('kecebongsoft@gmail.com',)
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/mail'
+EMAIL_PRODUCTION_MODE = False
+EMAIL_SENDER = 'kecebongsoft@gmail.com'
+EMAIL_REPLY_TO = 'kecebongsoft@gmail.com'
 
 try:
     from local_settings import *
