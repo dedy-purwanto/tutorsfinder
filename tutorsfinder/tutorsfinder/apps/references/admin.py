@@ -53,6 +53,7 @@ class EmailTemplateAdmin(admin.ModelAdmin):
     list_display = (
             'id',
             'name',
+            'slug',
     )
 
 

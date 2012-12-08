@@ -72,5 +72,5 @@ class EmailTemplate(models.Model):
         return super(EmailTemplate, self).save()
 
     def __unicode__(self):
-        return "%s" % self.title
+        return "%s" % self.name
     
