@@ -52,3 +52,17 @@ class Qualification(models.Model):
     class Meta:
         ordering = ['order', 'title']
 
+
+class EmailTemplate(models.Model):
+
+    title = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    template = models.TextField()
+    template_html = models.TextField(blank=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s" % self.title
+    
