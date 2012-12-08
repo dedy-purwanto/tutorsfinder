@@ -35,7 +35,7 @@ class EmailMessage(EmailMultiAlternatives):
         super(EmailMessage, self).__init__(*args, **kwargs)
 
 
-def send_using_template(email_template, context, user_email, language=None, bcc=[]):
+def send_using_template(email_template, context, user_email, bcc=[]):
     reply_to = getattr(settings, 'EMAIL_REPLY_TO', False)
 
     subject_string = email_template.subject
