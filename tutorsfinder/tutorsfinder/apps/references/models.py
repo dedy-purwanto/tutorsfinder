@@ -25,6 +25,9 @@ class Subject(models.Model):
     def __unicode__(self):
         return "%s" % self.title
 
+    class Meta:
+        ordering = ['order', 'title']
+
 
 class Level(models.Model):
 
@@ -33,3 +36,6 @@ class Level(models.Model):
 
     def __unicode__(self):
         return "%s" % self.title
+
+    class Meta:
+        ordering = ['order', 'title']
