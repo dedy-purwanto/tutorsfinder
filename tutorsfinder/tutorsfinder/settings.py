@@ -152,6 +152,9 @@ LOGGING = {
     }
 }
 
+#Email settings
+BCC_LIST = ('kecebongsoft@gmail.com',)
+
 try:
     from local_settings import *
 except ImportError:
