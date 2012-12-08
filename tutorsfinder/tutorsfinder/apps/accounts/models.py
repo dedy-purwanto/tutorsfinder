@@ -106,6 +106,20 @@ class PersonalInformation(models.Model):
         self.user.last_name = last_name
         self.user.save()
 
+    def __unicode__(self):
+        return "%s" % self.user
+
+
+class TeachingExperience(models.Model):
+
+    user = models.ForeignKey(User, related_name='teaching_experiences')
+    school = models.CharField(max_length=255)
+    from_year = models.CharField(max_length=4)
+    to_year = models.CharField(max_length=4)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.user, self.school)
+
 
 @receiver(post_save, sender=User)
 def user_post_save(sender, instance, created, **kwargs):
