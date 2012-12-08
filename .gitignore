@@ -1,4 +1,4 @@
-nv/
+env/
 static/
 *.pyc
 local_settings.py
