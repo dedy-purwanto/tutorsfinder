@@ -71,7 +71,7 @@ def send_using_template(email_template, context, user_email, bcc=[]):
                 from_email,
                 ",".join(to_email),
                 ",".join(bcc),
-                email_template.title,
+                email_template.slug,
             )
     logger.info(log_message, exc_info=True)
 

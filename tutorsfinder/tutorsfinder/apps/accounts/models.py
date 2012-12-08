@@ -2,6 +2,7 @@ from random import randint
 import hashlib
 
 from django.db.models.signals import post_save
+from django.contrib.sites.models import Site
 from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
@@ -13,7 +14,7 @@ def build_token(rand_min=1, rand_max=9999, range_max=5):
     # build token from a combination of randomized integer
     integers = [str(randint(rand_min, rand_max)) 
             for i in range(1, range_max)]
-    token = hashlib.sha1(''.join(integers))
+    token = hashlib.sha1(''.join(integers)).hexdigest()
 
     return token
 
@@ -27,7 +28,14 @@ class ResetPasswordRequest(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def send_email(self):
-        pass
+        host = Site.objects.all()[0].domain
+        reset_url = ''
+        context = { 
+                'reset_url' : "http://%s%s" % (host, reset_url), 
+        }
+
+        template = EmailTemplate.objects.get(slug='forgot-password')
+        send_using_template(template, context, self.user.email)
 
     @staticmethod
     def create_request(user):
@@ -50,7 +58,7 @@ class ValidationStatus(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     @staticmethod
-    def get_or_create(self, user):
+    def get_or_create(user):
         created = False
         try:
             status = ValidationStatus.objects.get(user=user)
@@ -65,11 +73,14 @@ class ValidationStatus(models.Model):
         return status, created
 
     def send_email(self):
+        host = Site.objects.all()[0].domain
         validation_url = ''
-        context = {
-            'validation_url' : validation_url,
+        context = { 
+                'validation_url' : "http://%s%s" % (host, validation_url), 
         }
-        send_using_template(EmailTemplate.objects.get(slug='welcome-and-validation'), context)
+
+        template = EmailTemplate.objects.get(slug='welcome-and-validation')
+        send_using_template(template, context, self.user.email)
 
     class Meta:
 
