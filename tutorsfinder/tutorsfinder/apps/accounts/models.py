@@ -98,6 +98,8 @@ class PersonalInformation(models.Model):
     hourly_rate = models.CharField(max_length=16)
     description = models.TextField(blank=True, null=True)
     picture = models.ImageField('Picture', blank=True, upload_to='picture/%Y/%m/%d')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def set_name(self, name):
         first_name = name.split()[0]
@@ -116,6 +118,8 @@ class TeachingExperience(models.Model):
     school = models.CharField(max_length=255)
     from_year = models.CharField(max_length=4)
     to_year = models.CharField(max_length=4)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.user, self.school)
@@ -125,6 +129,8 @@ class TeachingSubject(models.Model):
 
     user = models.ForeignKey(User, related_name='teaching_subjects')
     subject = models.ForeignKey(Subject)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.user, self.subject.title)
@@ -134,6 +140,8 @@ class TeachingLevel(models.Model):
 
     user = models.ForeignKey(User, related_name='teaching_levels')
     level = models.ForeignKey(Level)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.user, self.level.title)
@@ -146,6 +154,8 @@ class EducationBackground(models.Model):
     major = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
     graduation_year = models.CharField(max_length=255)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.user, self.institution)
