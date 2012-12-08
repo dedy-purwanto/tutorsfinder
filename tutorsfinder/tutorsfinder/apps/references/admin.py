@@ -48,10 +48,11 @@ class QualificationAdmin(admin.ModelAdmin):
 
 
 class EmailTemplateAdmin(admin.ModelAdmin):
+    fields = ('name', 'subject', 'template', 'template_html', )
 
     list_display = (
             'id',
-            'title',
+            'name',
     )
 
 
