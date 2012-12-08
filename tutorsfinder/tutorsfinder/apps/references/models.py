@@ -39,3 +39,16 @@ class Level(models.Model):
 
     class Meta:
         ordering = ['order', 'title']
+
+
+class Qualification(models.Model):
+
+    title = models.CharField(max_length=255)
+    order = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return "%s" % self.title
+
+    class Meta:
+        ordering = ['order', 'title']
+
