@@ -181,6 +181,7 @@ class PersonalInformationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PersonalInformationForm, self).__init__(*args, **kwargs)
         self.fields['full_name'].initial = self.instance.name
+        self.fields['description'].label = 'About you'
 
     def save(self, *args, **kwargs):
         data = self.cleaned_data

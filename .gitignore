@@ -2,3 +2,4 @@ env/
 tmp/
 *.pyc
 tutorsfinder/tutorsfinder/local_settings.py
+tutorsfinder/tutorsfinder/media/
