@@ -38,6 +38,10 @@
         </article>
     </div>
     <div class="span3">
+
+        <div id="map" style='width:110%;height:200px;'></div>
+        <img id="map-shadow" src="{{STATIC_URL}}img/shadow.png">
+
         <strong>Experience</strong><br />
         {% for experience in object.teaching_experiences.all %}
             <p>
@@ -75,5 +79,28 @@
     </div>
     
 </div>
+
+{% endblock %}
+{% block js %}
+<script>
+    $(function(){
+        {% if object.details.latitude and object.details.longitude %}
+        var myOptions = {
+            center: new google.maps.LatLng({{object.details.latitude}}, {{object.details.longitude}}),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), myOptions);
+        var marker = new google.maps.Marker({
+            position: map.getCenter(),
+            map: map
+        });
+        {% endif %}
+
+    });
+
+</script>
 
 {% endblock %}
