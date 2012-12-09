@@ -1,0 +1,87 @@
+{% extends "accounts/update-profile-base.html" %}
+{% load url from future %}
+{% block nav-profile-personal-information %} active {% endblock %}
+{% block form-header %}
+<h1>Personal Information</h1>
+
+{% endblock %}
+
+{% block form-content %}
+<form class='form-horizontal' method='post' action=''>
+
+    <div class="control-group {% if form.full_name.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.full_name.auto_id}}'>{{form.full_name.label}}</label>
+        <div class='controls'>
+            {{form.full_name}}
+            <span class='help-inline'>{{form.full_name.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.phone_number.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.phone_number.auto_id}}'>{{form.phone_number.label}}</label>
+        <div class='controls'>
+            {{form.phone_number}}
+            <span class='help-inline'>{{form.phone_number.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.state.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.state.auto_id}}'>{{form.state.label}}</label>
+        <div class='controls'>
+            {{form.state}}
+            <span class='help-inline'>{{form.state.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.area.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.area.auto_id}}'>{{form.area.label}}</label>
+        <div class='controls'>
+            {{form.area}}
+            <span class='help-inline'>{{form.area.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.street.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.street.auto_id}}'>{{form.street.label}}</label>
+        <div class='controls'>
+            {{form.street}}
+            <span class='help-inline'>{{form.street.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.post_code.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.post_code.auto_id}}'>{{form.post_code.label}}</label>
+        <div class='controls'>
+            {{form.post_code}}
+            <span class='help-inline'>{{form.post_code.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.hourly_rate.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.hourly_rate.auto_id}}'>{{form.hourly_rate.label}}</label>
+        <div class='controls'>
+            {{form.hourly_rate}}
+            <span class='help-inline'>{{form.hourly_rate.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    <div class="control-group {% if form.description.errors %} error {% endif %}">
+        <label class='control-label' for='{{form.description.auto_id}}'>{{form.description.label}}</label>
+        <div class='controls'>
+            {{form.description}}
+            <span class='help-inline'>{{form.description.errors.0|safe}}</span>
+        </div>
+    </div>
+
+    {% csrf_token %}
+    <div class="control-group">
+        <label class='control-label' for=''></label>
+        <div class='controls'>
+            <button type='submit' class='button'>Save &amp; continue</button> 
+        </div>
+    </div>
+
+
+</form>
+
+{% endblock %}

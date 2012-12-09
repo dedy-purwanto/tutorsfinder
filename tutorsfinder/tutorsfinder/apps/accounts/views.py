@@ -2,15 +2,15 @@ from django.http import Http404
 from django.utils.translation import gettext as _
 from django.contrib.auth import logout
 from django.contrib import messages
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, UpdateView
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from cores.views import LoginRequiredMixin
 from .forms import LoginForm, RegisterForm, ForgotPasswordForm, \
-        ResendActivationForm, UpdatePasswordForm
-from .models import ValidationStatus
+        ResendActivationForm, UpdatePasswordForm, PersonalInformationForm
+from .models import ValidationStatus, PersonalInformation
 
 
 class LoginView(FormView):
@@ -123,3 +123,19 @@ class UpdatePasswordView(LoginRequiredMixin, FormView):
         return redirect(reverse("accounts:update_password"))
 
 
+class UpdatePersonalInformationView(LoginRequiredMixin, UpdateView):
+
+    template_name = 'accounts/update-personal-information.html'
+    model = PersonalInformation
+    form_class = PersonalInformationForm
+
+    def get_form(self, *args, **kwargs):
+        return self.form_class(self.request.POST or None, self.request.FILES or None, instance=self.get_object())
+
+    def get_object(self, *args, **kwargs):
+        return self.request.user.details
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('accounts:update_personal_information')
+
+    

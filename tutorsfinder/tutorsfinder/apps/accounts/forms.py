@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from emails import send_using_template
 from references.models import EmailTemplate
 
+from .models import PersonalInformation
+
 class ForgotPasswordForm(forms.Form):
     
     email = forms.EmailField()
@@ -171,3 +173,23 @@ class UpdatePasswordForm(forms.Form):
 
         return user
 
+
+class PersonalInformationForm(forms.ModelForm):
+
+    full_name = forms.CharField(max_length=255)
+
+    def __init__(self, *args, **kwargs):
+        super(PersonalInformationForm, self).__init__(*args, **kwargs)
+        self.fields['full_name'].initial = self.instance.name
+
+    def save(self, *args, **kwargs):
+        data = self.cleaned_data
+        
+        details = super(PersonalInformationForm, self).save(*args, **kwargs)
+        details.set_name(data['full_name'])
+
+        return details
+
+    class Meta:
+        model = PersonalInformation
+        exclude = ('user',)
