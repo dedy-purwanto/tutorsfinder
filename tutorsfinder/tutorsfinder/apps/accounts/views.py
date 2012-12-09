@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
-from .forms import LoginForm, RegisterForm
-from .models import ValidationStatus
+from .forms import LoginForm, RegisterForm, ForgotPasswordForm, ResetPasswordForm
+from .models import ValidationStatus, ResetPasswordRequest
 
 
 class LoginView(FormView):
@@ -56,3 +56,42 @@ class ValidateAccountView(TemplateView):
             message = "Your account has been confirmed. Thank you."
             messages.add_message(self.request, messages.SUCCESS, _(message))
             return redirect(reverse("home:home"))
+
+
+class ForgotPasswordView(FormView):
+
+    form_class = ForgotPasswordForm
+    template_name = 'accounts/forgot-password.html'
+
+    def form_valid(self, form):
+        form.save()
+
+        message = "A reset password link has been sent to your email. Please click the link to reset your password."
+        messages.add_message(self.request, messages.SUCCESS, _(message))
+
+        return redirect(reverse("accounts:forgot_password"))
+
+
+class ResetPasswordView(FormView):
+
+    form_class = ResetPasswordForm
+    template_name = 'accounts/reset-password.html'
+
+    def get(self, *args, **kwargs):
+        token = self.kwargs['token']
+        try:
+            ResetPasswordRequest.objects.get(used=False, token=token)
+        except ResetPasswordRequest.DoesNotExist:
+            raise Http404()
+        
+        return super(ResetPasswordView, self).get(*args, **kwargs)
+
+    def form_valid(self, form):
+        form.save(self.kwargs['token'])
+
+        message = "You have changed your password. You can now login with your new password."
+        messages.add_message(self.request, messages.SUCCESS, _(message))
+
+        return redirect(reverse("accounts:login"))
+
+

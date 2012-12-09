@@ -30,7 +30,7 @@ class ResetPasswordRequest(models.Model):
 
     def send_email(self):
         host = Site.objects.all()[0].domain
-        reset_url = ''
+        reset_url = reverse("accounts:reset_password", args=[self.token,])
         context = { 
                 'reset_url' : "http://%s%s" % (host, reset_url), 
         }
@@ -47,6 +47,8 @@ class ResetPasswordRequest(models.Model):
         request.token = build_token()
         request.save()
         request.send_email()
+
+        return request
 
 
 

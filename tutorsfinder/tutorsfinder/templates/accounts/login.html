@@ -23,7 +23,10 @@
             </div>
             {% csrf_token %}
             <p>
-                <button type='submit' id="contact-form-submit" class="button yellow fl">Login &nbsp;<i class="icon-chevron-right"></i></button>
+                <button type='submit' class="button yellow">Login &nbsp;<i class="icon-chevron-right"></i></button>
+                &nbsp;
+                &nbsp;
+                <a href='{% url 'accounts:forgot_password' %}'>Forgot password</a>
             </p>
         </form>
     </div>

@@ -1,6 +1,63 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from .models import ResetPasswordRequest
+
+
+class ResetPasswordForm(forms.Form):
+
+    password = forms.CharField(widget=forms.PasswordInput())
+    confirm_password = forms.CharField(widget=forms.PasswordInput())
+
+    def clean_password(self, *args, **kwargs):
+        password = self.data['password']
+        if len(password) < 6:
+            raise forms.ValidationError('Password must be at least 6 characters')
+        return password
+
+    def clean_confirm_password(self, *args, **kwargs):
+        password = self.data['password']
+        confirm_password = self.data['confirm_password']
+
+        if not password == confirm_password:
+            raise forms.ValidationError('Password mismatched')
+
+        return confirm_password
+
+    def save(self, token, *args, **kwargs):
+        password = self.data['password']
+
+        request = ResetPasswordRequest.objects.get(used=False, token=token)
+
+        user = request.user
+        user.set_password(password)
+        user.save()
+
+        request.used = True
+        request.save()
+
+        return request
+
+
+class ForgotPasswordForm(forms.Form):
+    
+    email = forms.EmailField()
+
+    def clean_email(self, *args, **kwargs):
+        email = self.data['email']
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise forms.ValidationError("Email not found")
+        else:
+            return email
+
+    def save(self, *args, **kwargs):
+        user = User.objects.get(email=self.cleaned_data['email'])
+        request = ResetPasswordRequest.create(user) 
+        return request
+
+
 class LoginForm(forms.Form):
 
     email = forms.EmailField()
