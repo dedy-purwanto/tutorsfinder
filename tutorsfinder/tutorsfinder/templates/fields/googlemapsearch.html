@@ -1,0 +1,126 @@
+ <!-- http://code.google.com/p/django-google-maps-widget/  -->
+  <script type="text/javascript">
+    var base_point = new google.maps.LatLng({{base_point}});
+    $(document).ready(function(){
+        if($('#{{latitude}}').val()!=''){
+            center = new google.maps.LatLng($('#{{latitude}}').val(), $('#{{longitude}}').val());
+        }else{
+            center = base_point
+        }
+        var myOptions = {
+            zoom: 1,
+            center: center,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("{{map_canvas}}"), myOptions);
+        geocoder = new google.maps.Geocoder();
+        marker = new google.maps.Marker({
+            position: center,
+            map: map
+
+        })
+        
+        
+        $('#{{longitude}}').parent().parent().hide();
+        google.maps.event.addListener(map, 'click', function(event) {
+        	$('#{{latitude}}').val(event.latLng.lat());
+            $('#{{longitude}}').val(event.latLng.lng());
+            var lat = event.latLng.lat();
+            var lng = event.latLng.lng();
+            var latLng = new google.maps.LatLng(lat, lng);
+            geocoder.geocode({'latLng': latLng}, function(results, status) {
+            	selectPoint(results);
+            });
+            marker.setPosition(latLng);
+        });
+        
+        $("#city_country").keypress(function(event){
+            if(event.which == 13){
+                event.preventDefault();
+                codeAddress();
+                return false;
+            }
+        });
+
+        {% if country_id %}
+            $("#{{country_id}}").change(function(event){
+                moveTo($("#{{country_id}} option:selected").text());
+            });
+        {% endif %}
+    });
+    function selectPoint(results)
+    {
+        var components = results[0].address_components;
+        var others = [];
+        {% if city_text_id %} $("#{{city_text_id}}").val("");{%endif%}
+        {% if state_text_id %} $("#{{state_text_id}}").val("");{%endif%}
+        $(components).each(function(index, value) {
+            var type = value.types[0];
+            switch(type) {
+                {% if city_id or city_text_id %}
+                case 'locality':
+                    {% if city_id %}
+                        setSelectValueFromText('{{city_id}}', value.long_name);
+                        $("#id_city_name").val(value.long_name);
+                    {% else %}
+                        $("#{{city_text_id}}").val(value.long_name);
+
+                    {% endif %}
+                    break;
+                {% endif %}
+
+                {% if city_id or city_text_id %}
+                case 'administrative_area_level_2':
+                    {% if city_id %}
+                        setSelectValueFromText('{{city_id}}', value.long_name);
+                        $("#id_city_name").val(value.long_name);
+                    {% else %}
+                        $("#{{city_text_id}}").val(value.long_name);
+
+                    {% endif %}
+                    break;
+                {% endif %}
+
+                {% if state_id or state_text_id %}
+                case 'administrative_area_level_1':
+                    {% if state_id %}
+                        setSelectValueFromText('{{state_id}}', value.long_name);
+                        $("#id_state_name").val(value.long_name);
+                    {% else %}
+                        $("#{{state_text_id}}").val(value.long_name);
+                    {% endif %}
+                    break;
+                {% endif %}
+
+                {% if postal_code %}
+                case 'postal_code':
+                    $("#{{postal_code}}").val(value.long_name);
+                    break;
+                {% endif %}
+                case 'country':
+                    setSelectValueFromText('{{country_id}}', value.long_name);
+                    break;
+                default:
+                    others.push(value.long_name);
+                    break;
+            }
+        });
+        $('#{{address_id}}').val(others.join(', '));
+    }
+
+    
+</script>
+<div style="float:left;width:600px">
+    <!-- <input type="button" value="Reset point" onclick="reset_point(center)" style="border: 0px" /> -->
+    {% if city_id %}
+        <input type="hidden" name="city_name" id="id_city_name">
+    {% endif %}
+    {% if state_id %}
+        <input type="hidden" name="state_name" id="id_state_name">
+    {% endif %}
+    <input id="city_country" type="text" value="{{country_city}}" style="float: left; width: 200px;" />
+    <input type="button" value="Find" style="float: left; width: 60px; height: 21px;margin-left:5px" onclick="codeAddress();return false;" />
+    <div style="clear: both;" ></div>
+    <div id="search_results"></div>
+    <div id="{{map_canvas}}" style="width: {{width}}px; height: {{height}}px; "></div>
+</div>

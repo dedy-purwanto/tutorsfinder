@@ -70,8 +70,8 @@ class PersonalInformation(models.Model):
     hourly_rate = models.CharField(max_length=16, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     picture = models.ImageField('Picture', blank=True, null=True, upload_to='picture/%Y/%m/%d')
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
