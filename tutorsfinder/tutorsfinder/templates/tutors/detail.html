@@ -4,9 +4,15 @@
 
 {% block content %}
 <div class="row">
-    <dic class='span12 fr'>
-        Previous
+    <div class='span12'>
+        <div class='pull-right'>
+            <a class='btn btn-info btn-mini'><i class="icon-chevron-left"></i>&nbsp;Prev</a>
+            <a class='btn btn-info btn-mini'>&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;</a>
+            <a class='btn btn-info btn-mini'>Next&nbsp;<i class="icon-chevron-right"></i></a>
+        </div>
+        <br />
         <hr />
+
     </div>
     <div class="span3">
         <span href="#" class="thumbnail stacked white">
@@ -34,17 +40,35 @@
     <div class="span3">
         <strong>Experience</strong><br />
         {% for experience in object.teaching_experiences.all %}
-            {{experience.school}}<br />
-            {{experience.from_year}} - {{experience.to_year}}<br />
-            {{experience.subject}}<br />
-            <br />
+            <p>
+                {{experience.school}}<br />
+                {{experience.from_year}} - {{experience.to_year}}<br />
+                {{experience.subject}}<br />
+            </p>
         {% endfor %}
         <hr />
         <strong>Education</strong><br />
+        {% for education in object.education_backgrounds.all %}
+            <p>
+                {{education.institution}}<br />
+                {{education.major}}<br />
+                {{education.graduation_year}}<br />
+            </p>
+        {% endfor %}
         <hr />
         <strong>Teaching Subjects</strong><br />
+        <ul class='tags'>
+            {% for teaching_subject in object.teaching_subjects.all %}
+                <li><a href='#'>{{teaching_subject.subject.title}}</a></li>
+            {% endfor %}
+        </ul>
         <hr />
         <strong>Teaching Levels</strong><br />
+        <ul class='tags blue'>
+            {% for teaching_level in object.teaching_levels.all %}
+                <li><a href='#'>{{teaching_level.level.title}}</a></li>
+            {% endfor %}
+        </ul>
 
 
 
