@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'south',
     'easy_thumbnails',
     'widget_tweaks',
+    'seacucumber',
 
     'cores',
     'references',
