@@ -2,17 +2,17 @@
 {% load url from future %}
 
 {% block content %}
-<div class="tabbable tabs-below">
-    <div class="btn-group" data-toggle="buttons-radio">
-        <button href="#" class="btn btn-large {% block nav-profile-personal-information %}{% endblock %}">1. Personal Information</button>
-        <button href="#" class="btn btn-large {% block nav-profile-teaching-experience %}{% endblock %}">2. Teaching Experience</button>
-        <button href="#" class="btn btn-large {% block nav-profile-teaching-subjects %}{% endblock %}">3. Teaching Subjects</button>
-        <button href="#" class="btn btn-large {% block nav-profile-educational-background %}{% endblock %}">4. Educational Background</button>
-    </div>
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li><a href="{% url 'accounts:update_personal_information' %}" class="btn btn-large {% block nav-profile-personal-information %}{% endblock %}">1. Personal Information</a></li>
+        <li><a href="#" class="btn btn-large {% block nav-profile-teaching-experience %}{% endblock %}">2. Teaching Experience</a></li>
+        <li><a href="#" class="btn btn-large {% block nav-profile-teaching-subjects %}{% endblock %}">3. Teaching Subjects</a></li>
+        <li><a href="#" class="btn btn-large {% block nav-profile-educational-background %}{% endblock %}">4. Educational Background</a></li>
+    </ul>
     <div class="tab-content">
         <div class="tab-pane in active">
             <div class="row">
-                <div class="span12">
+                <div class="span10">
                     <div class='hero-unit'>
                         {% block form-header %} {% endblock %}
                     </div>

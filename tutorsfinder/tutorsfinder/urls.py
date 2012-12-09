@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
 
+    url(r'^references/', include('references.urls', namespace='references')),
+
     url(r'^admin/', include(admin.site.urls)),
 )

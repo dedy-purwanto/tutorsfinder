@@ -3,6 +3,7 @@
 {% block nav-profile-personal-information %} active {% endblock %}
 {% block form-header %}
 <h1>Personal Information</h1>
+<hr />
 
 {% endblock %}
 
@@ -83,5 +84,41 @@
 
 
 </form>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    $(function(){
+        var state = $("#{{form.state.auto_id}}");
+        var area = $("#{{form.area.auto_id}}");
+
+        area.html('');
+
+        function update_areas(state_pk){
+            $.getJSON('{% url 'references:fetch_areas' %}?state=' + state_pk, function(data){
+                var items = [];
+                $.each(data, function(key, val){
+                    if (key == '{{form.initial.area}}'){
+                        selected = 'selected';
+                    } else {
+                        selected = '';
+                    }
+                    items.push('<option value="' + key + '"' + selected + '>' + val + '</option>');
+                    area.html(items.join(''));
+                });
+            });
+        }
+
+        state.change(function(){
+            state_pk = state.val();
+            update_areas(state_pk);
+        });
+
+        {% if user.details.state %}
+        update_areas({{form.initial.state}});
+        {% endif %}
+    });
+</script>
 
 {% endblock %}
