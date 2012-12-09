@@ -1,4 +1,5 @@
 from django.views.generic import FormView
+from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
@@ -10,6 +11,7 @@ from .forms import MessageForm
 class SendMessageView(FormView):
     
     form_class = MessageForm
+    template_name = 'messages/send-message.html'
 
     def get(self, *args, **kwargs):
         raise Http404()
@@ -26,7 +28,22 @@ class SendMessageView(FormView):
         message = "Your message has been sent to the tutor. He will receive it immediately."
         messages.add_message(self.request, messages.SUCCESS, _(message))
 
-        return redirect(reverse(self.get_success_url(user)))
+        return redirect(self.get_success_url(user))
 
     def get_success_url(self, user):
-        return reverse("tutor:details", args=[user.pk, user.details.name_slug])
+        return reverse("tutors:detail", args=[user.pk, user.details.name_slug])
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(SendMessageView, self).get_context_data(*args, **kwargs)
+
+        user_pk = self.kwargs['user_pk']
+        try:
+            user = User.objects.get(pk=user_pk)
+        except User.DoesNotExist:
+            raise Http404()
+
+        context['recipient'] = user
+
+        return context
+
+

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load widget_tweaks %}
+{% load url from future %}
+
+{% block content %}
+<div class="row">
+    <div class="span5">
+        <div class='hero-unit'>
+            <h1>Contact {{recipient.details.name}}</h1>
+            {% if recipient.details.state and recipient.details.area %}
+            <h3>{{recipient.details.state}}, {{recipient.details.area}}</h3>
+            {% endif %}
+        </div>
+        <form method='post' action=''>
+            <div class="control-group {% if form.email.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.email.auto_id}}'>{{form.email.label}}</label>
+                <div class='controls'>
+                    {{form.email}}
+                    <span class='help-inline'>{{form.email.errors.0|safe}}</span>
+                </div>
+            </div>
+            <div class="control-group {% if form.content.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.content.auto_id}}'>{{form.content.label}}</label>
+                <div class='controls'>
+                    {{form.content}}
+                    <span class='help-inline'>{{form.content.errors.0}}</span>
+                </div>
+            </div>
+            {% csrf_token %}
+            <p>
+            <button type='submit' class="button yellow"><i class='icon-envelope'></i>&nbsp;Send</button>
+            </p>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

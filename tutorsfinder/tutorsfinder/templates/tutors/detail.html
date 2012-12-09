@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load thumbnail %}
+{% load widget_tweaks %}
 {% load url from future %}
 
 {% block content %}
@@ -34,7 +35,20 @@
             <h3>{{object.details.state}}, {{object.details.area}}</h3>
             {% endif %}
         </div>
-        <a class='button blue'>Contact this tutor</a>
+
+        <div>
+            <a class='button blue' id='contact'><i class='icon-envelope'></i>&nbsp;Contact this tutor</a>
+            <div id='contact_form' class='hide'>
+                <form method='post' action='{% url 'messages:send_message' object.pk %}'>
+                    {{message_form.email}}
+                    {{message_form.content}}
+                    <br />
+                    {% csrf_token %}
+                    <button type='submit' class='button btn-big btn-primary blue'><i class='icon-envelope'></i>&nbsp;Send</button>
+                </form>
+            </div>
+        </div>
+
         <article class='post'>
         <div class='entry-body' style='width:100%'>
             <p>
@@ -104,6 +118,11 @@
             map: map
         });
         {% endif %}
+
+        $("#contact").click(function(){
+            $(this).hide();
+            $("#contact_form").show()
+        });
 
     });
 

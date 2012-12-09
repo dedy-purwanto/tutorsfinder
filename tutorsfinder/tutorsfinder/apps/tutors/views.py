@@ -3,6 +3,8 @@ from django.http import Http404
 
 from django.contrib.auth.models import User
 
+from messages.forms import MessageForm
+
 
 class TutorDetailView(DetailView):
 
@@ -29,6 +31,8 @@ class TutorDetailView(DetailView):
 
         context['prev_user'] = prev_user
         context['next_user'] = next_user
+
+        context['message_form'] = MessageForm()
 
         return context
 
