@@ -59,6 +59,7 @@
                             <li class="{% block nav-login %}{% endblock %}"><a href="{% url 'login' %}" title="Login">Login</a></li>
                             <li class="button small yellow{% block nav-register %}{% endblock %}"><a href="{% url 'accounts:register' %}" title="Register"><strong>Sign up as a Tutor</strong></a></li>
                         {% else %}
+                            <li class=""><a href="{% url 'tutors:detail' user.pk user.details.name_slug %}" title="View Public Profile">Public Profile</a></li>
                             <li class="{% block nav-dashboard %}{% endblock %}"><a href="{% url 'accounts:dashboard' %}" title="Dashboard">Dashboard</a></li>
                             <li class="{% block nav-logout %}{% endblock %}"><a href="{% url 'logout' %}" title="Logout">Logout</a></li>
                         {% endif %}
