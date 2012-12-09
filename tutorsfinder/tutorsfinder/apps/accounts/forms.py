@@ -42,7 +42,7 @@ class LoginForm(forms.Form):
 class RegisterForm(LoginForm):
 
     def clean_email(self, *args, **kwargs):
-        email = data['email']
+        email = self.data['email']
 
         if self.get_user() is not None:
             raise forms.ValidationError("User with this email already exists")
