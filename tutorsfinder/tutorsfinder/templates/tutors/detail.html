@@ -6,9 +6,13 @@
 <div class="row">
     <div class='span12'>
         <div class='pull-right'>
-            <a class='btn btn-info btn-mini'><i class="icon-chevron-left"></i>&nbsp;Prev</a>
-            <a class='btn btn-info btn-mini'>&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;</a>
-            <a class='btn btn-info btn-mini'>Next&nbsp;<i class="icon-chevron-right"></i></a>
+            {% if prev_user %}
+            <a href='{% url 'tutors:detail' prev_user.pk prev_user.details.name_slug %}' class='btn btn-info btn-mini'><i class="icon-chevron-left"></i>&nbsp;Prev</a>
+            {% endif %}
+            <a href='{% url 'home:home' %}' class='btn btn-info btn-mini'>&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;</a>
+            {% if next_user %}
+            <a href='{% url 'tutors:detail' next_user.pk next_user.details.name_slug %}' class='btn btn-info btn-mini'>Next&nbsp;<i class="icon-chevron-right"></i></a>
+            {% endif %}
         </div>
         <br />
         <hr />

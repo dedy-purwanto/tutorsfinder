@@ -60,7 +60,7 @@ class RegisterView(FormView):
             return redirect(self.get_success_url())
 
     def get_success_url(self, *args, **kwargs):
-        return reverse("home:home")
+        return reverse("accounts:update_personal_information")
 
 
 class ValidateAccountView(TemplateView):

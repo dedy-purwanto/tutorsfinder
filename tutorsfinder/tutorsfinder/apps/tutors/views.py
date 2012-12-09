@@ -19,6 +19,17 @@ class TutorDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(TutorDetailView, self).get_context_data(*args, **kwargs)
 
+        user = self.get_object()
+
+        prev_user = User.objects.filter(pk__lt=user.pk).order_by('-id')
+        prev_user = prev_user[0] if prev_user.exists() else None
+
+        next_user = User.objects.filter(pk__gt=user.pk).order_by('-id')
+        next_user = next_user[0] if next_user.exists() else None
+
+        context['prev_user'] = prev_user
+        context['next_user'] = next_user
+
         return context
 
 
