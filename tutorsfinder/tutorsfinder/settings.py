@@ -189,6 +189,7 @@ EMAIL_FILE_PATH = 'tmp/mail'
 EMAIL_PRODUCTION_MODE = False
 EMAIL_SENDER = 'kecebongsoft@gmail.com'
 EMAIL_REPLY_TO = 'kecebongsoft@gmail.com'
+EMAIL_ADMIN = 'kecebongsoft@gmail.com'
 
 try:
     from local_settings import *

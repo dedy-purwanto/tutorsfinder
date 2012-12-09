@@ -1,6 +1,7 @@
 from random import randint
 import hashlib
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save
 from django.contrib.sites.models import Site
@@ -62,7 +63,7 @@ class ValidationStatus(models.Model):
 class PersonalInformation(models.Model):
 
     user = models.OneToOneField(User, related_name='details')
-    enabled = models.BooleanField(default=True)
+    enabled = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=255, blank=True, null=True)
     state = models.ForeignKey(State, blank=True, null=True)
     area = models.ForeignKey(Area, blank=True, null=True)
@@ -163,7 +164,18 @@ class EducationBackground(models.Model):
         return "%s - %s" % (self.user, self.institution)
 
 
+def send_admin_email(user):
+    admin_email = settings.EMAIL_ADMIN
+    context = {
+        'user': user,
+    }
+    template = EmailTemplate.objects.get(slug='admin-new-user-notification')
+    send_using_template(template, context, admin_email)
+    
+
 @receiver(post_save, sender=User)
 def user_post_save(sender, instance, created, **kwargs):
     ValidationStatus.get_or_create(instance)
     PersonalInformation.get_or_create(instance)
+    if created:
+        send_admin_email(instance)
