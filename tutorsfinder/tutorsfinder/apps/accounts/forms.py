@@ -196,7 +196,7 @@ class PersonalInformationForm(forms.ModelForm):
     class Meta:
 
         model = PersonalInformation
-        exclude = ('user', 'longitude', 'latitude')
+        exclude = ('user', 'longitude', 'latitude', 'enabled',)
 
 
 class TeachingExperienceForm(forms.ModelForm):
