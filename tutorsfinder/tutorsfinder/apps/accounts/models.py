@@ -7,6 +7,7 @@ from django.contrib.sites.models import Site
 from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 from references.models import State, Area, Subject, Level, Qualification, EmailTemplate
 from emails import send_using_template
@@ -101,6 +102,10 @@ class PersonalInformation(models.Model):
             name = self.user.email
         return "%s" % name
 
+    @property
+    def name_slug(self):
+        return "%s" % slugify(self.name)
+
     def __unicode__(self):
         return "%s" % self.user
 
@@ -109,6 +114,7 @@ class TeachingExperience(models.Model):
 
     user = models.ForeignKey(User, related_name='teaching_experiences')
     school = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
     from_year = models.CharField(max_length=4)
     to_year = models.CharField(max_length=4)
     date_created = models.DateTimeField(auto_now_add=True)

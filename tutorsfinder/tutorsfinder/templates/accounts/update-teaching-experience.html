@@ -1,6 +1,7 @@
 {% extends "accounts/update-profile-base.html" %}
 {% load url from future %}
 {% load thumbnail %}
+{% load widget_tweaks %}
 {% block nav-profile-teaching-experience %} active {% endblock %}
 {% block form-header %}
 <h1>Do you have any teaching experience?</h1>
@@ -19,6 +20,14 @@
                 <div class='controls'>
                     {{form.school}}
                     <span class='help-inline'>{{form.school.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group {% if form.subject.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.subject.auto_id}}'>{{form.subject.label}}</label>
+                <div class='controls'>
+                    {{form.subject}}
+                    <span class='help-inline'>{{form.subject.errors.0|safe}}</span>
                 </div>
             </div>
 
@@ -55,6 +64,7 @@
                 <thead>
                     <tr>
                         <th>School</th>
+                        <th>Subject</th>
                         <th>From (year)</th>
                         <th>To (year)</th>
                         <th>&nbsp;</th>
@@ -68,11 +78,14 @@
                             {{form.school}} {{form.school.errors.0|safe}}
                         </td>
                         <td>
-                        {{form.from_year}} {{form.from_year.errors.0|safe}}
+                            {{form.subject}} {{form.subject.errors.0|safe}}
+                        </td>
+                        <td>
+                        {{form.from_year|add_class:'input-small'}} {{form.from_year.errors.0|safe}}
 
                         </td>
                         <td>
-                        {{form.to_year}} {{form.to_year.errors.0|safe}}
+                        {{form.to_year|add_class:'input-small'}} {{form.to_year.errors.0|safe}}
 
                         </td>
                         <td>

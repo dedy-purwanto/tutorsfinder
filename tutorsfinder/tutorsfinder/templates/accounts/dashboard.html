@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load thumbnail %}
 {% block nav-dashboard %} active {% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="span3">
-        <img alt="" src="http://placehold.it/298x186/444/fff" />
+        <span href="#" class="thumbnail">
+            {% if not user.details.picture %}
+                <img src="http://placehold.it/360x268" alt="">
+            {% else %}
+                <img src="{% thumbnail user.details.picture 360x268 %}" alt="">
+            {% endif %}
+        </span>
         
     </div>
     <div class="span9">

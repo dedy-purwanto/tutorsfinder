@@ -15,6 +15,8 @@ urlpatterns = patterns('',
 
     url(r'^references/', include('references.urls', namespace='references')),
 
+    url(r'^tutor/', include('tutors.urls', namespace='tutors')),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 

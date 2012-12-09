@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load url from future %}
+
+{% block content %}
+<div class="row">
+    <dic class='span12 fr'>
+        Previous
+        <hr />
+    </div>
+    <div class="span3">
+        <span href="#" class="thumbnail stacked white">
+            {% if not user.details.picture %}
+                <img src="http://placehold.it/360x268" alt="">
+            {% else %}
+                <img src="{% thumbnail user.details.picture 360x268 %}" alt="">
+            {% endif %}
+        </span>
+    </div>
+    <div class="span5">
+        <div class='hero-unit'>
+            <h1>{{object.details.name}}</h1>
+            <h3>{{object.details.state}}, {{object.details.area}}</h3>
+        </div>
+        <a class='button blue'>Contact this tutor</a>
+        <article class='post'>
+        <div class='entry-body' style='width:100%'>
+            <p>
+            {{object.details.description|linebreaks}}
+            </p>
+        </div>
+        </article>
+    </div>
+    <div class="span3">
+        <strong>Experience</strong><br />
+        {% for experience in object.teaching_experiences.all %}
+            {{experience.school}}<br />
+            {{experience.from_year}} - {{experience.to_year}}<br />
+            {{experience.subject}}<br />
+            <br />
+        {% endfor %}
+        <hr />
+        <strong>Education</strong><br />
+        <hr />
+        <strong>Teaching Subjects</strong><br />
+        <hr />
+        <strong>Teaching Levels</strong><br />
+
+
+
+    </div>
+    
+</div>
+
+{% endblock %}
