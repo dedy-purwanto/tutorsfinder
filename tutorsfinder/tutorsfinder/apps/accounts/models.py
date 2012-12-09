@@ -62,15 +62,29 @@ class PersonalInformation(models.Model):
 
     user = models.OneToOneField(User, related_name='details')
     phone_number = models.CharField(max_length=255, blank=True, null=True)
-    state = models.ForeignKey(State)
-    area = models.ForeignKey(Area)
+    state = models.ForeignKey(State, blank=True, null=True)
+    area = models.ForeignKey(Area, blank=True, null=True)
     street = models.TextField(blank=True, null=True)
-    post_code = models.CharField(max_length=16)
-    hourly_rate = models.CharField(max_length=16)
+    post_code = models.CharField(max_length=16, blank=True, null=True)
+    hourly_rate = models.CharField(max_length=16, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    picture = models.ImageField('Picture', blank=True, upload_to='picture/%Y/%m/%d')
+    picture = models.ImageField('Picture', blank=True, null=True, upload_to='picture/%Y/%m/%d')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
+    @staticmethod
+    def get_or_create(user):
+        created = False
+        try:
+            details = PersonalInformation.objects.get(user=user)
+        except PersonalInformation.DoesNotExist:
+            details = PersonalInformation()
+            details.user = user
+            details.save()
+
+            created = True
+
+        return details, created
 
     def set_name(self, name):
         first_name = name.split()[0]
@@ -78,6 +92,14 @@ class PersonalInformation(models.Model):
         self.user.first_name = first_name
         self.user.last_name = last_name
         self.user.save()
+
+    @property
+    def name(self):
+        if len(self.user.first_name) > 0 or len(self.user.last_name) > 0:
+            name = "%s %s" % (self.user.first_name, self.user.last_name)
+        else:
+            name = self.user.email
+        return "%s" % name
 
     def __unicode__(self):
         return "%s" % self.user
@@ -135,3 +157,4 @@ class EducationBackground(models.Model):
 @receiver(post_save, sender=User)
 def user_post_save(sender, instance, created, **kwargs):
     ValidationStatus.get_or_create(instance)
+    PersonalInformation.get_or_create(instance)

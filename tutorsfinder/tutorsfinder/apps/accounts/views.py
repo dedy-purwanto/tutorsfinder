@@ -8,7 +8,8 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from cores.views import LoginRequiredMixin
-from .forms import LoginForm, RegisterForm, ForgotPasswordForm, ResendActivationForm
+from .forms import LoginForm, RegisterForm, ForgotPasswordForm, \
+        ResendActivationForm, UpdatePasswordForm
 from .models import ValidationStatus
 
 
@@ -105,3 +106,17 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context = super(DashboardView, self).get_context_data(*args, **kwargs)
 
         return context
+
+
+class UpdatePasswordView(LoginRequiredMixin, FormView):
+
+    form_class = UpdatePasswordForm
+    template_name = 'accounts/update-password.html'
+
+    def form_valid(self, form):
+        form.save(self.request.user)
+        message = "Password updated."
+        messages.add_message(self.request, messages.SUCCESS, _(message))
+        return redirect(reverse("accounts:update_password"))
+
+

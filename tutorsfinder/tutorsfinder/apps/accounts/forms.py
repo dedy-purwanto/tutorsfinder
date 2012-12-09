@@ -129,3 +129,33 @@ class ResendActivationForm(forms.Form):
         return user
 
 
+class UpdatePasswordForm(forms.Form):
+
+    password = forms.CharField(widget=forms.PasswordInput())
+    confirm_password = forms.CharField(widget=forms.PasswordInput())
+
+    def clean_password(self, *args, **kwargs):
+        password = self.data['password']
+
+        if len(password) < 6:
+            raise forms.ValidationError('Password must be at least 6 characters')
+
+        return password
+
+    def clean_confirm_password(self, *args, **kwargs):
+        password = self.data['password']
+        confirm_password = self.data['confirm_password']
+
+        if not password == confirm_password:
+            raise forms.ValidationError("Passwords mismatched")
+
+        return password
+
+    def save(self, user):
+        password = self.cleaned_data['password']
+
+        user.set_password(password)
+        user.save()
+
+        return user
+
