@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'references',
     'accounts',
     'emails',
+    'messages',
     'home',
 )
 

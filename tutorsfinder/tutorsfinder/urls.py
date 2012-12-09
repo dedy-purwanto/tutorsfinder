@@ -17,6 +17,8 @@ urlpatterns = patterns('',
 
     url(r'^tutor/', include('tutors.urls', namespace='tutors')),
 
+    url(r'^messages/', include('messages.urls', namespace='messages')),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 
