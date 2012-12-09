@@ -26,7 +26,7 @@ class LoginView(FormView):
             return redirect(self.get_success_url())
 
     def get_success_url(self, *args, **kwargs):
-        return reverse("home:home")
+        return reverse("accounts:dashboard")
 
 
 class LogoutView(TemplateView):
@@ -112,6 +112,9 @@ class UpdatePasswordView(LoginRequiredMixin, FormView):
 
     form_class = UpdatePasswordForm
     template_name = 'accounts/update-password.html'
+
+    def get_form(self, *args, **kwargs):
+        return self.form_class(self.request.POST or None, user=self.request.user)
 
     def form_valid(self, form):
         form.save(self.request.user)

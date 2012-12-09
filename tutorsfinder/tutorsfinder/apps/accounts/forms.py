@@ -131,8 +131,20 @@ class ResendActivationForm(forms.Form):
 
 class UpdatePasswordForm(forms.Form):
 
+    current_password = forms.CharField(widget=forms.PasswordInput())
     password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(UpdatePasswordForm, self).__init__(*args, **kwargs)
+
+    def clean_current_password(self, *args, **kwargs):
+        current_password = self.data['current_password']
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError("Wrong password.")
+        return current_password
+            
 
     def clean_password(self, *args, **kwargs):
         password = self.data['password']
