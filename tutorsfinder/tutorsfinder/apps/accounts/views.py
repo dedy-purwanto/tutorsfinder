@@ -1,9 +1,13 @@
-from django.views.generic import FormView
+from django.http import Http404
+from django.utils.translation import gettext as _
+from django.contrib import messages
+from django.views.generic import FormView, TemplateView
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from .forms import LoginForm, RegisterForm
+from .models import ValidationStatus
 
 
 class LoginView(FormView):
@@ -38,3 +42,17 @@ class RegisterView(FormView):
         return reverse("home:home")
 
 
+class ValidateAccountView(TemplateView):
+
+    def get(self, *args, **kwargs):
+        token = self.kwargs['token']
+        try:
+            status = ValidationStatus.objects.get(validated=False, token=token)
+        except ValidationStatus.DoesNotExist:
+            raise Http404()
+        else:
+            status.validated = True
+            status.save()
+            message = "Your account has been confirmed. Thank you."
+            messages.add_message(self.request, messages.SUCCESS, _(message))
+            return redirect(reverse("home:home"))

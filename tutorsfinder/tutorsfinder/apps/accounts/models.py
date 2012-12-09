@@ -1,6 +1,7 @@
 from random import randint
 import hashlib
 
+from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save
 from django.contrib.sites.models import Site
 from django.dispatch import receiver
@@ -74,7 +75,7 @@ class ValidationStatus(models.Model):
 
     def send_email(self):
         host = Site.objects.all()[0].domain
-        validation_url = ''
+        validation_url = reverse("accounts:validate", args=[self.token])
         context = { 
                 'validation_url' : "http://%s%s" % (host, validation_url), 
         }
