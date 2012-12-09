@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
+from cores.views import LoginRequiredMixin
 from .forms import LoginForm, RegisterForm, ForgotPasswordForm, ResendActivationForm
 from .models import ValidationStatus
 
@@ -94,3 +95,13 @@ class ResendActivationView(FormView):
         message = "Activation link sent."
         messages.add_message(self.request, messages.SUCCESS, _(message))
         return redirect(reverse("accounts:resend_activation"))
+
+
+class DashboardView(LoginRequiredMixin, TemplateView):
+
+    template_name = 'accounts/dashboard.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DashboardView, self).get_context_data(*args, **kwargs)
+
+        return context
