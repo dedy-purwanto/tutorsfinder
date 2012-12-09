@@ -4,6 +4,7 @@ import os, sys
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 sys.path.append(os.path.join(PROJECT_PATH, 'apps'))
+sys.path.append(os.path.join(PROJECT_PATH, 'libraries'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -142,6 +143,7 @@ INSTALLED_APPS = (
 
     'south',
     'easy_thumbnails',
+    'widget_tweaks',
 
     'cores',
     'references',

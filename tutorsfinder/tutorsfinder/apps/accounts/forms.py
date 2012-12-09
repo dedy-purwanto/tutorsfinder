@@ -10,7 +10,7 @@ from emails import send_using_template
 from references.models import EmailTemplate, Subject, Level
 
 from .models import PersonalInformation, TeachingExperience, \
-       TeachingSubject, TeachingLevel
+       TeachingSubject, TeachingLevel, EducationBackground
 
 class ForgotPasswordForm(forms.Form):
     
@@ -210,9 +210,6 @@ class TeachingExperienceForm(forms.ModelForm):
         self.fields['from_year'].label = 'From (year)' 
         self.fields['to_year'].label = 'To (year)'
 
-        if self.instance.pk:
-            self.fields['school'].initial = self.instance.pk
-
     def save(self, *args, **kwargs):
         if self.user is not None:
             self.instance.user = self.user
@@ -254,3 +251,30 @@ class TeachingSubjectsForm(forms.Form):
             teaching_level.save()
 
         return user
+
+
+
+class EducationBackgroundForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.user = None
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user')
+
+        super(EducationBackgroundForm, self).__init__(*args, **kwargs)
+        self.fields['qualification'].label = 'Degree' 
+        self.fields['major'].label = 'Subject / Major'
+        self.fields['institution'].label = 'University / College'
+
+    def save(self, *args, **kwargs):
+        if self.user is not None:
+            self.instance.user = self.user
+        return super(EducationBackgroundForm, self).save(*args, **kwargs)
+
+    class Meta:
+
+        model = EducationBackground
+        exclude = ('user',)
+
+EducationBackgroundInlineFormSet = inlineformset_factory(User, EducationBackground, fk_name='user', form=EducationBackgroundForm, extra=1, max_num=5)
+

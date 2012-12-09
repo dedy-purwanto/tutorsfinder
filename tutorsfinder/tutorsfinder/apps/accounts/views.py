@@ -15,9 +15,10 @@ from references.models import Subject, Level
 from .forms import LoginForm, RegisterForm, ForgotPasswordForm, \
         ResendActivationForm, UpdatePasswordForm, PersonalInformationForm,\
         TeachingExperienceForm, TeachingExperienceInlineFormSet, \
+        EducationBackgroundForm, EducationBackgroundInlineFormSet, \
         TeachingSubjectsForm
 from .models import ValidationStatus, PersonalInformation, TeachingExperience,\
-        TeachingSubject, TeachingLevel
+        TeachingSubject, TeachingLevel, EducationBackground
 
 
 class LoginView(FormView):
@@ -215,4 +216,39 @@ class UpdateTeachingSubjectsView(LoginRequiredMixin, FormView):
         return redirect(self.get_success_url())
 
     def get_success_url(self, *args, **kwargs):
-        return reverse("accounts:update_teaching_subjects")
+        return reverse("accounts:update_education_background")
+
+
+@login_required
+def update_education_background(request):
+    context = {}
+    user = request.user
+    if not user.education_backgrounds.exists():
+        form = EducationBackgroundForm(request.POST or None, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("accounts:update_education_background"))
+
+        context['form'] = form
+    else:
+        formset = EducationBackgroundInlineFormSet(request.POST or None, instance=user)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse("accounts:update_education_background"))
+        context['formset'] = formset
+
+    return render_to_response("accounts/update-education-background.html", context,
+                            RequestContext(request))
+
+@login_required
+def delete_education_background(request, pk):
+    user = request.user
+    try:
+        education = EducationBackground.objects.get(pk=pk, user=user)
+        education.delete()
+        message = "1 education background has been deleted."
+        messages.add_message(request, messages.SUCCESS, _(message))
+        return redirect(reverse("accounts:update_education_background"))
+    except EducationBackground.DoesNotExist:
+        raise Http404()

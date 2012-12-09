@@ -1,0 +1,97 @@
+{% extends "accounts/update-profile-base.html" %}
+{% load url from future %}
+{% load thumbnail %}
+{% load widget_tweaks %}
+{% block nav-profile-educational-background %} active {% endblock %}
+{% block form-header %}
+<h1>What is your educational background?</h1>
+<hr />
+
+{% endblock %}
+
+{% block form-content %}
+<form class='form-horizontal' method='post' action=''>
+    {% csrf_token %}
+    {% if form %}
+        <div class="span4">
+
+            <div class="control-group {% if form.qualification.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.qualification.auto_id}}'>{{form.qualification.label}}</label>
+                <div class='controls'>
+                    {{form.qualification}}
+                    <span class='help-inline'>{{form.qualification.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group {% if form.major.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.major.auto_id}}'>{{form.major.label}}</label>
+                <div class='controls'>
+                    {{form.major}}
+                    <span class='help-inline'>{{form.major.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group {% if form.institution.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.institution.auto_id}}'>{{form.institution.label}}</label>
+                <div class='controls'>
+                    {{form.institution}}
+                    <span class='help-inline'>{{form.institution.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group {% if form.graduation_year.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.graduation_year.auto_id}}'>{{form.graduation_year.label}}</label>
+                <div class='controls'>
+                    {{form.graduation_year|add_class:'input-small'}}
+                    <span class='help-inline'>{{form.graduation_year.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class='control-label' for=''></label>
+                <div class='controls'>
+                    <button type='submit' class='button'>Save &amp; continue</button> 
+                </div>
+            </div>
+
+        </div>
+
+    {% else %}
+        <div class="span10">
+            {{formset.management_form}}
+            <table class="">
+                <thead>
+                    <tr>
+                        <th>Degree</th>
+                        <th>Subject / Major</th>
+                        <th>Institution</th>
+                        <th>Graduation Year</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                    {{form.id}}
+                    <tr>
+                        <td>{{form.qualification|add_class:'span3'}} {{form.qualification.errors.0|safe}}</td>
+                        <td> {{form.major}} {{form.major.errors.0|safe}} </td>
+                        <td> {{form.institution}} {{form.institution.errors.0|safe}} </td>
+                        <td>{{form.graduation_year|add_class:'input-small'}} {{form.graduation_year.errors.0|safe}}</td>
+                        <td>
+                            {% if form.instance.pk %}
+                            <a href='{% url 'accounts:delete_education_background' form.instance.pk %}'><i class='icon-remove'></i></a>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br /><br />
+            <button type='submit' class='button'>Save &amp; continue</button> 
+        </div>
+
+    {% endif %}
+</form>
+
+{% endblock %}
