@@ -1,3 +1,5 @@
+{% load flatpages %}
+{% load url from future %}
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
@@ -44,29 +46,16 @@
             <div class="navbar-inner">
                 <div class="container">
                     <!-- Logo -->
-                    <a class="brand" href="index.html">
-                        Plain
+                    <a class="brand" href="{% url 'home:home' %}">
+                        {{SITE_NAME}}
                     </a>
                     <ul class="nav">
-                        <li><a href="index.html" title="Home">Home</a></li>
-                        <li class="active"><a href="work.html" title="Our work">Portfolio</a></li>
-                        <li><a href="plans.html" title="Plans and pricing">Pricing</a></li>
-                        <li><a href="team.html" title="Our team">Our team</a></li>
-                        <li>
-                            <a href="blog.html" title="Our blog">Blog</a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="components.html" title="Features">Features</a>
-                            <!-- Dropdown menu -->
-                            <ul>
-                                <li><a href="components.html" title="">Components</a></li>
-                                <li><a href="grid.html" title="">Grid</a></li>
-                                <li><a href="icons.html" title="">Icons</a></li>
-                                <li><a href="home-variant-1.html" title="">Homepage variant #1</a></li>
-                                <li><a href="home-variant-2.html" title="">Homepage variant #2</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="contact.html" title="Contact us">Contact</a></li>
+                        <li class="{% block nav-home %}{% endblock %}"><a href="{% url 'home:home' %}" title="Home">Home</a></li>
+                        {% get_flatpages as flatpages %}
+                        {% for page in flatpages %}
+                        <li class=""><a href="{{page.url}}" title="{{page.title}}">{{page.title}}</a></li>
+                        {% endfor %}
+                        <li class="{% block nav-login %}{% endblock %}"><a href="" title="Login">Login</a></li>
                     </ul>
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
@@ -78,337 +67,8 @@
     ================================================== -->
     <section id="content" class="container">
 
+    {% block content %} {% endblock %}
 
-    <div class="hero-unit">
-        <p>This is a template for a simple portfolio page with tags.</p> 
-        <p>Here's a preview of 
-            <a onclick="$('#portfolio-items article').removeClass('span6').removeClass('span3').removeClass('span4').addClass('span3');$('#portfolio-items').isotope({ filter: '*' })">4 columns</a>,
-            <a onclick="$('#portfolio-items article').removeClass('span6').removeClass('span3').removeClass('span4').addClass('span4');$('#portfolio-items').isotope({ filter: '*' })">3 columns</a> or  
-            <a onclick="$('#portfolio-items article').removeClass('span6').removeClass('span3').removeClass('span4').addClass('span6');$('#portfolio-items').isotope({ filter: '*' })">2 columns</a> 
-             design. 
-        </p>
-
-    </div>
-
-    <hr />
-
-    <div id="portfolio">
-
-        <!-- portfolio filter -->		
-        <ul id="portfolio-filter" class="nav nav-tabs">
-            <li class="active"><a href="#" class="filter" data-filter="*">All</a></li>
-            <li><a href="#" class="filter" data-filter=".web">Web</a></li>
-            <li><a href="#" class="filter" data-filter=".design">Design</a></li>
-            <li><a href="#" class="filter" data-filter=".corporate">Corporate identity</a></li>
-            <li><a href="#" class="filter" data-filter=".ui-design">Interface design</a></li>
-            <li><a href="#" class="filter" data-filter=".illustration">Illustration</a></li>
-            <li><a href="#" class="filter" data-filter=".experiment">Experiment</a></li>
-        </ul>
-
-        <!-- portfolio items -->		
-        <section class="row" id="portfolio-items">
-
-            <!-- portfolio item-->
-            <article class="span6 project" data-tags="design">
-
-                <div class="thumbnail link">
-                    <!-- image -->
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/458x290/444/fff" />
-                    </a>
-                    <!-- description -->
-                    <div class="project-description">
-                        <!-- icon -->
-                        <i class="icon-th"></i>
-                        <!-- name -->
-                        <b class="project-name">Title</b>
-                    </div>
-                    <!-- ribbon -->
-                    <div class="ribbon"><span>Awarded</span></div>
-                </div>
-
-            </article>
-            <!-- end portfolio item-->
-
-            <article class="span6 project" data-tags="design">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/458x290/444/fff" />
-                    </a>
-                    <a href="#"></a>
-                    <div class="project-description">
-                        <b class="name">Awesome website</b>
-                        <i class="icon-asterisk"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="web">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Awesome website</b>
-                        <i class="icon-thumbs-up"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="web,ui-design">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Awesome UI</b>
-                        <i class="icon-beaker"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="web">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Awesome UI</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span3 project" data-tags="design">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span3 project" data-tags="photography">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span3 project" data-tags="photography">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span3 project" data-tags="design">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="photography">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="illustration">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="illustration">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="experiment">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="experiment,ui-design">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="ui-design">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="illustration">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="experiment">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="illustration">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="photography">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="corporate">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="illustration,corporate">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="illustration">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="corporate,web">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>				
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-            <article class="span4 project" data-tags="photography">
-                <div class="thumbnail link">
-                    <a href="project.html" title="">
-                        <img alt="" src="http://placehold.it/298x186/444/fff" />
-                    </a>
-                    <div class="project-description">
-                        <b class="name">Other project</b>
-                        <i class="icon-heart"></i>
-                    </div>
-                </div>
-            </article>
-
-        </section>
-    </div>
     </section>
 
     <!-- Footer
@@ -418,8 +78,8 @@
         <div class="container">
             <div class="row">
                 <div class="span4">
-                    <a class="brand" href="index.html">
-                        Plain
+                    <a class="brand" href="{% url 'home:home' %}">
+                        {{SITE_NAME}}
                     </a>
                     <p>
                         Creative agency working <br />with web and interactive media. <br />
@@ -455,7 +115,7 @@
         <div class="container">
             <div class="row">
                 <div class="span4">
-                    &copy; 2010—2012 by <a>Plain</a>
+                    &copy; 2010—2012 by <a>{{SITE_NAME}}</a>
                 </div>
                 <div class="span4">
                     <a href="#" title="Send us email">hello@plain.com</a>, 
