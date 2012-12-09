@@ -5,7 +5,7 @@
 <div class="tabbable">
     <ul class="nav nav-tabs">
         <li><a href="{% url 'accounts:update_personal_information' %}" class="btn btn-large {% block nav-profile-personal-information %}{% endblock %}">1. Personal Information</a></li>
-        <li><a href="#" class="btn btn-large {% block nav-profile-teaching-experience %}{% endblock %}">2. Teaching Experience</a></li>
+        <li><a href="{% url 'accounts:update_teaching_experience' %}" class="btn btn-large {% block nav-profile-teaching-experience %}{% endblock %}">2. Teaching Experience</a></li>
         <li><a href="#" class="btn btn-large {% block nav-profile-teaching-subjects %}{% endblock %}">3. Teaching Subjects</a></li>
         <li><a href="#" class="btn btn-large {% block nav-profile-educational-background %}{% endblock %}">4. Educational Background</a></li>
     </ul>

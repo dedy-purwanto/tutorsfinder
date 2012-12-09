@@ -4,11 +4,12 @@ import hashlib
 from django import forms
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.forms.models import inlineformset_factory
 
 from emails import send_using_template
 from references.models import EmailTemplate
 
-from .models import PersonalInformation
+from .models import PersonalInformation, TeachingExperience
 
 class ForgotPasswordForm(forms.Form):
     
@@ -192,5 +193,33 @@ class PersonalInformationForm(forms.ModelForm):
         return details
 
     class Meta:
+
         model = PersonalInformation
         exclude = ('user',)
+
+
+class TeachingExperienceForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.user = None
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user')
+
+        super(TeachingExperienceForm, self).__init__(*args, **kwargs)
+        self.fields['from_year'].label = 'From (year)' 
+        self.fields['to_year'].label = 'To (year)'
+
+        if self.instance.pk:
+            self.fields['school'].initial = self.instance.pk
+
+    def save(self, *args, **kwargs):
+        if self.user is not None:
+            self.instance.user = self.user
+        return super(TeachingExperienceForm, self).save(*args, **kwargs)
+
+    class Meta:
+
+        model = TeachingExperience
+        exclude = ('user',)
+
+TeachingExperienceInlineFormSet = inlineformset_factory(User, TeachingExperience, fk_name='user', form=TeachingExperienceForm, extra=1, max_num=5)

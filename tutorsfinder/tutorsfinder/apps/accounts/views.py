@@ -1,16 +1,19 @@
 from django.http import Http404
 from django.utils.translation import gettext as _
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.views.generic import FormView, TemplateView, UpdateView
 from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
 from django.core.urlresolvers import reverse
+from django.template import RequestContext
 
 from cores.views import LoginRequiredMixin
 from .forms import LoginForm, RegisterForm, ForgotPasswordForm, \
-        ResendActivationForm, UpdatePasswordForm, PersonalInformationForm
-from .models import ValidationStatus, PersonalInformation
+        ResendActivationForm, UpdatePasswordForm, PersonalInformationForm,\
+        TeachingExperienceForm, TeachingExperienceInlineFormSet
+from .models import ValidationStatus, PersonalInformation, TeachingExperience
 
 
 class LoginView(FormView):
@@ -138,4 +141,37 @@ class UpdatePersonalInformationView(LoginRequiredMixin, UpdateView):
     def get_success_url(self, *args, **kwargs):
         return reverse('accounts:update_personal_information')
 
-    
+
+@login_required
+def update_teaching_experience(request):
+    context = {}
+    user = request.user
+    if not user.teaching_experiences.exists():
+        form = TeachingExperienceForm(request.POST or None, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("accounts:update_teaching_experience"))
+
+        context['form'] = form
+    else:
+        formset = TeachingExperienceInlineFormSet(request.POST or None, instance=user)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse("accounts:update_teaching_experience"))
+        context['formset'] = formset
+
+    return render_to_response("accounts/update-teaching-experience.html", context,
+                            RequestContext(request))
+
+@login_required
+def delete_teaching_experience(request, pk):
+    user = request.user
+    try:
+        experience = TeachingExperience.objects.get(pk=pk, user=user)
+        experience.delete()
+        message = "1 Teaching experience has been deleted."
+        messages.add_message(request, messages.SUCCESS, _(message))
+        return redirect(reverse("accounts:update_teaching_experience"))
+    except TeachingExperience.DoesNotExist:
+        raise Http404()

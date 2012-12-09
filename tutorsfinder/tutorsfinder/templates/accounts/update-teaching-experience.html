@@ -1,0 +1,94 @@
+{% extends "accounts/update-profile-base.html" %}
+{% load url from future %}
+{% load thumbnail %}
+{% block nav-profile-teaching-experience %} active {% endblock %}
+{% block form-header %}
+<h1>Do you have any teaching experience?</h1>
+<hr />
+
+{% endblock %}
+
+{% block form-content %}
+<form class='form-horizontal' method='post' action=''>
+    {% csrf_token %}
+    {% if form %}
+        <div class="span4">
+
+            <div class="control-group {% if form.school.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.school.auto_id}}'>{{form.school.label}}</label>
+                <div class='controls'>
+                    {{form.school}}
+                    <span class='help-inline'>{{form.school.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group {% if form.from_year.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.from_year.auto_id}}'>{{form.from_year.label}}</label>
+                <div class='controls'>
+                    {{form.from_year}}
+                    <span class='help-inline'>{{form.from_year.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group {% if form.to_year.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.to_year.auto_id}}'>{{form.to_year.label}}</label>
+                <div class='controls'>
+                    {{form.to_year}}
+                    <span class='help-inline'>{{form.to_year.errors.0|safe}}</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class='control-label' for=''></label>
+                <div class='controls'>
+                    <button type='submit' class='button'>Save &amp; continue</button> 
+                </div>
+            </div>
+
+        </div>
+
+    {% else %}
+        <div class="span10">
+            {{formset.management_form}}
+            <table class="stacked">
+                <thead>
+                    <tr>
+                        <th>School</th>
+                        <th>From (year)</th>
+                        <th>To (year)</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                    {{form.id}}
+                    <tr>
+                        <td>
+                            {{form.school}} {{form.school.errors.0|safe}}
+                        </td>
+                        <td>
+                        {{form.from_year}} {{form.from_year.errors.0|safe}}
+
+                        </td>
+                        <td>
+                        {{form.to_year}} {{form.to_year.errors.0|safe}}
+
+                        </td>
+                        <td>
+                            {% if form.instance.pk %}
+                            <a href='{% url 'accounts:delete_teaching_experience' form.instance.pk %}'><i class='icon-remove'></i></a>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br /><br />
+            <button type='submit' class='button'>Save &amp; continue</button> 
+        </div>
+
+    {% endif %}
+</form>
+
+{% endblock %}
