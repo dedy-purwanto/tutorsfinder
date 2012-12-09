@@ -71,8 +71,17 @@
     <!-- Content
     ================================================== -->
     <section id="content" class="container">
+
+    {% if user.is_authenticated and not user.validation_status.validated %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <p>An email has been sent to your email address to activate your account. If you don't see it in your inbox, please check your spam folder. It's important that you click the link in the email to activate your account.</p>
+    </div>
+    {% endif %}
     {% if messages %}
     {% for message in messages %}
+
+
         <div class="alert alert-{% if message.tags == 'success' %}success{% else %}info{% endif %}">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <p>{{ message }}</p>
