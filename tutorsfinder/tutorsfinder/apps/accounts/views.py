@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.utils.translation import gettext as _
+from django.contrib.auth import logout
 from django.contrib import messages
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth import authenticate, login
@@ -24,6 +25,16 @@ class LoginView(FormView):
 
     def get_success_url(self, *args, **kwargs):
         return reverse("home:home")
+
+
+class LogoutView(TemplateView):
+
+    def get(self, *args, **kwargs):
+        request = self.request
+
+        logout(request)
+
+        return redirect(reverse("home:home"))
 
 
 class RegisterView(FormView):

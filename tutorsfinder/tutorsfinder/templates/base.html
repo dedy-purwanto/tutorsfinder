@@ -55,7 +55,12 @@
                         {% for page in flatpages %}
                         <li class=""><a href="{{page.url}}" title="{{page.title}}">{{page.title}}</a></li>
                         {% endfor %}
-                        <li class="{% block nav-login %}{% endblock %}"><a href="{% url 'accounts:login' %}" title="Login">Login</a></li>
+                        {% if not user.is_authenticated %}
+                            <li class="{% block nav-login %}{% endblock %}"><a href="{% url 'accounts:login' %}" title="Login">Login</a></li>
+                            <li class="button small yellow{% block nav-register %}{% endblock %}"><a href="{% url 'accounts:register' %}" title="Register"><strong>Sign up as a Tutor</strong></a></li>
+                        {% else %}
+                            <li class="{% block nav-logout %}{% endblock %}"><a href="{% url 'accounts:logout' %}" title="Logout">Logout</a></li>
+                        {% endif %}
                     </ul>
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
