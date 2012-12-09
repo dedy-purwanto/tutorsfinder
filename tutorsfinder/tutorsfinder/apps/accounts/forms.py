@@ -3,6 +3,7 @@ import hashlib
 
 from django import forms
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from emails import send_using_template
 from references.models import EmailTemplate
@@ -57,7 +58,12 @@ class LoginForm(forms.Form):
 
     def clean_email(self, *args, **kwargs):
         email = self.data['email']
-        if self.get_user() is not None:
+        user = self.get_user()
+        if user is not None:
+            if not user.validation_status.validated:
+                message = "Account with this email is not activated yet, <a href='%s'>click here</a> to resend activation link." % reverse("accounts:resend_activation")
+                raise forms.ValidationError(message)
+            
             return email
         else:
             raise forms.ValidationError("Email does not exist")

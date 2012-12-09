@@ -64,7 +64,7 @@ class ValidateAccountView(TemplateView):
         else:
             status.validated = True
             status.save()
-            message = "Your account has been confirmed. Thank you."
+            message = "Your account has been activated. Thank you."
             messages.add_message(self.request, messages.SUCCESS, _(message))
             return redirect(reverse("home:home"))
 
