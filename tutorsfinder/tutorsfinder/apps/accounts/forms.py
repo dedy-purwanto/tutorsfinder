@@ -1,43 +1,11 @@
+from random import randint
+import hashlib
+
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import ResetPasswordRequest
-
-
-class ResetPasswordForm(forms.Form):
-
-    password = forms.CharField(widget=forms.PasswordInput())
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
-
-    def clean_password(self, *args, **kwargs):
-        password = self.data['password']
-        if len(password) < 6:
-            raise forms.ValidationError('Password must be at least 6 characters')
-        return password
-
-    def clean_confirm_password(self, *args, **kwargs):
-        password = self.data['password']
-        confirm_password = self.data['confirm_password']
-
-        if not password == confirm_password:
-            raise forms.ValidationError('Password mismatched')
-
-        return confirm_password
-
-    def save(self, token, *args, **kwargs):
-        password = self.data['password']
-
-        request = ResetPasswordRequest.objects.get(used=False, token=token)
-
-        user = request.user
-        user.set_password(password)
-        user.save()
-
-        request.used = True
-        request.save()
-
-        return request
-
+from emails import send_using_template
+from references.models import EmailTemplate
 
 class ForgotPasswordForm(forms.Form):
     
@@ -54,8 +22,21 @@ class ForgotPasswordForm(forms.Form):
 
     def save(self, *args, **kwargs):
         user = User.objects.get(email=self.cleaned_data['email'])
-        request = ResetPasswordRequest.create(user) 
-        return request
+
+        new_password = hashlib.sha1(str(randint(1,9999))).hexdigest()[0:6]
+
+        user.set_password(new_password)
+        user.save()
+
+        context = {
+            'new_password': new_password,
+
+        }
+
+        template = EmailTemplate.objects.get(slug='forgot-password')
+        send_using_template(template, context, user.email)
+
+        return user
 
 
 class LoginForm(forms.Form):

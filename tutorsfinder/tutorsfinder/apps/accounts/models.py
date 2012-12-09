@@ -20,38 +20,6 @@ def build_token(rand_min=1, rand_max=9999, range_max=5):
     return token
 
 
-class ResetPasswordRequest(models.Model):
-
-    user = models.ForeignKey(User, related_name='reset_password_requests')
-    token = models.CharField(max_length=1024)
-    used = models.BooleanField(default=False)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def send_email(self):
-        host = Site.objects.all()[0].domain
-        reset_url = reverse("accounts:reset_password", args=[self.token,])
-        context = { 
-                'reset_url' : "http://%s%s" % (host, reset_url), 
-        }
-
-        template = EmailTemplate.objects.get(slug='forgot-password')
-        send_using_template(template, context, self.user.email)
-
-    @staticmethod
-    def create(user):
-        # build sha1 token from a combination of 3 randomized integer
-
-        request = ResetPasswordRequest()
-        request.user = user
-        request.token = build_token()
-        request.save()
-        request.send_email()
-
-        return request
-
-
-
 class ValidationStatus(models.Model):
 
     user = models.OneToOneField(User, related_name='validation_status')

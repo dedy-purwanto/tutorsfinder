@@ -1,21 +1,8 @@
 from django.contrib import admin
 
-from .models import ResetPasswordRequest, ValidationStatus,\
+from .models import ValidationStatus,\
    PersonalInformation, TeachingExperience, TeachingSubject,\
    TeachingLevel, EducationBackground
-
-
-
-class ResetPasswordRequestAdmin(admin.ModelAdmin):
-
-    list_display = (
-            'id',
-            'user',
-            'token',
-            'used',
-            'date_created',
-            'date_modified',
-    )
 
 
 class ValidationStatusAdmin(admin.ModelAdmin):
@@ -79,7 +66,6 @@ class EducationBackgroundAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(ResetPasswordRequest, ResetPasswordRequestAdmin)
 admin.site.register(ValidationStatus, ValidationStatusAdmin)
 admin.site.register(PersonalInformation, PersonalInformationAdmin)
 admin.site.register(TeachingExperience, TeachingExperienceAdmin)
