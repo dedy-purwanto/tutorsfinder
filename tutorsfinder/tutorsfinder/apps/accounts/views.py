@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
-from .forms import LoginForm, RegisterForm, ForgotPasswordForm
+from .forms import LoginForm, RegisterForm, ForgotPasswordForm, ResendActivationForm
 from .models import ValidationStatus
 
 
@@ -82,3 +82,15 @@ class ForgotPasswordView(FormView):
 class ForgotPasswordSuccessView(TemplateView):
 
     template_name = 'accounts/forgot-password-success.html'
+
+
+class ResendActivationView(FormView):
+
+    form_class = ResendActivationForm
+    template_name = 'accounts/resend-activation.html'
+
+    def form_valid(self, form):
+        form.save()
+        message = "Activation link sent."
+        messages.add_message(self.request, messages.SUCCESS, _(message))
+        return redirect(reverse("accounts:resend_activation"))

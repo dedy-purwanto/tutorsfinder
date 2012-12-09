@@ -102,3 +102,24 @@ class RegisterForm(LoginForm):
         return user
 
 
+class ResendActivationForm(forms.Form):
+    
+    email = forms.EmailField()
+
+    def clean_email(self, *args, **kwargs):
+        email = self.data['email']
+        try:
+            user = User.objects.get(email=email)
+            if user.validation_status.validated:
+                raise forms.ValidationError("The account associated with this email is already activated.")
+        except User.DoesNotExist:
+            raise forms.ValidationError("Email not found")
+
+        return email
+
+    def save(self, *args, **kwargs):
+        user = User.objects.get(email=self.cleaned_data['email'])
+        user.validation_status.send_email()
+        return user
+
+
