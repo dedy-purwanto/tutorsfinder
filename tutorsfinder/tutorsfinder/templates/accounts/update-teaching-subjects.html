@@ -48,6 +48,9 @@
     <div class="span10">
         {% csrf_token %}
         <button type='submit' class='button'>Save &amp; continue</button> 
+        {% if not user.teaching_subjects.exists and not user.teaching_levels.exists %}
+        &nbsp;<a href='{% url 'accounts:update_education_background' %}'>Skip this step for now</a>.
+        {% endif %}
 
     </div>
 

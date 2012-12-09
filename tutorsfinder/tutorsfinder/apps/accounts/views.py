@@ -144,7 +144,7 @@ class UpdatePersonalInformationView(LoginRequiredMixin, UpdateView):
         return self.request.user.details
 
     def get_success_url(self, *args, **kwargs):
-        return reverse('accounts:update_personal_information')
+        return reverse('accounts:update_teaching_experience')
 
 
 @login_required

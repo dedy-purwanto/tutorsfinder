@@ -12,7 +12,7 @@
 <form class='form-horizontal' method='post' action=''>
     {% csrf_token %}
     {% if form %}
-        <div class="span4">
+        <div class="span6">
 
             <div class="control-group {% if form.school.errors %} error {% endif %}">
                 <label class='control-label' for='{{form.school.auto_id}}'>{{form.school.label}}</label>
@@ -42,6 +42,7 @@
                 <label class='control-label' for=''></label>
                 <div class='controls'>
                     <button type='submit' class='button'>Save &amp; continue</button> 
+                    &nbsp;<a href='{% url 'accounts:update_teaching_subjects' %}'>Skip this step for now</a>.
                 </div>
             </div>
 

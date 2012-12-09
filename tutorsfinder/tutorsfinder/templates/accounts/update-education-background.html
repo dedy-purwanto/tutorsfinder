@@ -13,7 +13,7 @@
 <form class='form-horizontal' method='post' action=''>
     {% csrf_token %}
     {% if form %}
-        <div class="span4">
+        <div class="span8">
 
             <div class="control-group {% if form.qualification.errors %} error {% endif %}">
                 <label class='control-label' for='{{form.qualification.auto_id}}'>{{form.qualification.label}}</label>
@@ -51,6 +51,7 @@
                 <label class='control-label' for=''></label>
                 <div class='controls'>
                     <button type='submit' class='button'>Save &amp; continue</button> 
+                    &nbsp;<a href='{% url 'accounts:dashboard' %}'>Skip this step for now</a>.
                 </div>
             </div>
 
