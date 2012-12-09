@@ -19,18 +19,20 @@
 
     </div>
     <div class="span3">
-        <span href="#" class="thumbnail stacked white">
-            {% if not user.details.picture %}
+        <span href="#" class="thumbnail stacked">
+            {% if not object.details.picture %}
                 <img src="http://placehold.it/360x268" alt="">
             {% else %}
-                <img src="{% thumbnail user.details.picture 360x268 %}" alt="">
+                <img src="{% thumbnail object.details.picture 360x268 %}" alt="">
             {% endif %}
         </span>
     </div>
     <div class="span5">
         <div class='hero-unit'>
             <h1>{{object.details.name}}</h1>
+            {% if object.details.state and object.details.area %}
             <h3>{{object.details.state}}, {{object.details.area}}</h3>
+            {% endif %}
         </div>
         <a class='button blue'>Contact this tutor</a>
         <article class='post'>

@@ -62,6 +62,7 @@ class ValidationStatus(models.Model):
 class PersonalInformation(models.Model):
 
     user = models.OneToOneField(User, related_name='details')
+    enabled = models.BooleanField(default=True)
     phone_number = models.CharField(max_length=255, blank=True, null=True)
     state = models.ForeignKey(State, blank=True, null=True)
     area = models.ForeignKey(Area, blank=True, null=True)

@@ -1,36 +1,50 @@
 {% extends "base.html" %}
+{% load thumbnail %}
+{% load url from future %}
 {% block nav-home %} active {% endblock %}
 
 {% block content %}
 <div class="hero-unit">
-    <p>This is a template for a simple portfolio page with tags.</p> 
-    <p>Here's a preview of 
-        <a onclick="$('#portfolio-items article').removeClass('span6').removeClass('span3').removeClass('span4').addClass('span3');$('#portfolio-items').isotope({ filter: '*' })">4 columns</a>,
-        <a onclick="$('#portfolio-items article').removeClass('span6').removeClass('span3').removeClass('span4').addClass('span4');$('#portfolio-items').isotope({ filter: '*' })">3 columns</a> or  
-        <a onclick="$('#portfolio-items article').removeClass('span6').removeClass('span3').removeClass('span4').addClass('span6');$('#portfolio-items').isotope({ filter: '*' })">2 columns</a> 
-         design. 
-    </p>
-
+    <p>Find great home tuition teachers near you.</p> 
 </div>
 
 <hr />
 
 <div id="portfolio">
 
-    <!-- portfolio filter -->		
-    <ul id="portfolio-filter" class="nav nav-tabs">
-        <li class="active"><a href="#" class="filter" data-filter="*">All</a></li>
-        <li><a href="#" class="filter" data-filter=".web">Web</a></li>
-        <li><a href="#" class="filter" data-filter=".design">Design</a></li>
-        <li><a href="#" class="filter" data-filter=".corporate">Corporate identity</a></li>
-        <li><a href="#" class="filter" data-filter=".ui-design">Interface design</a></li>
-        <li><a href="#" class="filter" data-filter=".illustration">Illustration</a></li>
-        <li><a href="#" class="filter" data-filter=".experiment">Experiment</a></li>
-    </ul>
-
     <!-- portfolio items -->		
     <section class="row" id="portfolio-items">
+        {% for tutor in tutors %}
+            <article class="span3 project" data-tags="design">
 
+                <div class="thumbnail link">
+                    <!-- image -->
+                    <a href="{% url 'tutors:detail' tutor.pk tutor.details.name_slug %}" title="">
+                        {% if not tutor.details.picture %}
+                            <img src="http://placehold.it/298x186" alt="">
+                        {% else %}
+                            <img src="{% thumbnail tutor.details.picture 298x186 crop %}" alt="">
+                        {% endif %}
+                    </a>
+                    <!-- description -->
+                    <div class="project-description">
+                        <!-- icon -->
+                        <i class="icon-thumbs-up"></i>
+                        <!-- name -->
+                        <b class="project-name">{{tutor.details.name}}</b>
+                        <br />
+                        {% if tutor.details.state and tutor.details.area %}
+                        {{tutor.details.state}}, {{tutor.details.area}}
+
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+
+        {% endfor %}
+    
+
+        {% comment %}
         <!-- portfolio item-->
         <article class="span6 project" data-tags="design">
 
@@ -329,6 +343,7 @@
                 </div>
             </div>
         </article>
+        {% endcomment %}
 
     </section>
 </div>
