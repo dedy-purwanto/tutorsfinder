@@ -7,9 +7,10 @@ from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 
 from emails import send_using_template
-from references.models import EmailTemplate
+from references.models import EmailTemplate, Subject, Level
 
-from .models import PersonalInformation, TeachingExperience
+from .models import PersonalInformation, TeachingExperience, \
+       TeachingSubject, TeachingLevel
 
 class ForgotPasswordForm(forms.Form):
     
@@ -223,3 +224,33 @@ class TeachingExperienceForm(forms.ModelForm):
         exclude = ('user',)
 
 TeachingExperienceInlineFormSet = inlineformset_factory(User, TeachingExperience, fk_name='user', form=TeachingExperienceForm, extra=1, max_num=5)
+
+
+class TeachingSubjectsForm(forms.Form):
+    subjects = forms.ModelMultipleChoiceField(queryset=Subject.objects.all(), required=False)
+    levels = forms.ModelMultipleChoiceField(queryset=Level.objects.all(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(TeachingSubjectsForm, self).__init__(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        data = self.cleaned_data
+
+        user = self.user
+        user.teaching_subjects.all().delete()
+        user.teaching_levels.all().delete()
+
+        for subject in data['subjects']:
+            teaching_subject = TeachingSubject()
+            teaching_subject.user = user
+            teaching_subject.subject = subject
+            teaching_subject.save()
+
+        for level in data['levels']:
+            teaching_level = TeachingLevel()
+            teaching_level.user = user
+            teaching_level.level = level
+            teaching_level.save()
+
+        return user

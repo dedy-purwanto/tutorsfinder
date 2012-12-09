@@ -10,10 +10,14 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
 from cores.views import LoginRequiredMixin
+from references.models import Subject, Level
+
 from .forms import LoginForm, RegisterForm, ForgotPasswordForm, \
         ResendActivationForm, UpdatePasswordForm, PersonalInformationForm,\
-        TeachingExperienceForm, TeachingExperienceInlineFormSet
-from .models import ValidationStatus, PersonalInformation, TeachingExperience
+        TeachingExperienceForm, TeachingExperienceInlineFormSet, \
+        TeachingSubjectsForm
+from .models import ValidationStatus, PersonalInformation, TeachingExperience,\
+        TeachingSubject, TeachingLevel
 
 
 class LoginView(FormView):
@@ -151,14 +155,14 @@ def update_teaching_experience(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse("accounts:update_teaching_experience"))
+            return redirect(reverse("accounts:update_teaching_subjects"))
 
         context['form'] = form
     else:
         formset = TeachingExperienceInlineFormSet(request.POST or None, instance=user)
         if formset.is_valid():
             formset.save()
-            return redirect(reverse("accounts:update_teaching_experience"))
+            return redirect(reverse("accounts:update_teaching_subjects"))
         context['formset'] = formset
 
     return render_to_response("accounts/update-teaching-experience.html", context,
@@ -175,3 +179,40 @@ def delete_teaching_experience(request, pk):
         return redirect(reverse("accounts:update_teaching_experience"))
     except TeachingExperience.DoesNotExist:
         raise Http404()
+
+
+class UpdateTeachingSubjectsView(LoginRequiredMixin, FormView):
+
+    form_class = TeachingSubjectsForm
+    template_name = 'accounts/update-teaching-subjects.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(UpdateTeachingSubjectsView, self).get_context_data(*args, **kwargs)
+
+        subjects = list(Subject.objects.all())
+        for subject in subjects:
+            if TeachingSubject.objects.filter(user=self.request.user, subject=subject).exists():
+                subject.checked = True
+
+        subjects_column = [ [subjects.pop(0) for i in range(0,3) if any(subjects)] for i in range(0,100) if any(subjects) ]
+
+        levels = list(Level.objects.all())
+        for level in levels:
+            if TeachingLevel.objects.filter(user=self.request.user, level=level).exists():
+                level.checked = True
+        levels_column = [ [levels.pop(0) for i in range(0,3) if any(levels)] for i in range(0,100) if any(levels) ]
+        
+        context['subjects_columns'] = subjects_column
+        context['levels_columns'] = levels_column
+
+        return context
+
+    def get_form(self, *args, **kwargs):
+        return self.form_class(self.request.POST or None, user=self.request.user)
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.get_success_url())
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse("accounts:update_teaching_subjects")
