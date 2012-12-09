@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block content %}
+<div class='row'>
+    <div class='span12'>
+        <h1>Sign up as a Tutor</h1>
+        <form method='post' action=''>
+            <div class="control-group {% if form.email.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.email.auto_id}}'>{{form.email.label}}</label>
+                <div class='controls'>
+                    {{form.email}}
+                    <span class='help-inline'>{{form.email.errors.0}}</span>
+                </div>
+            </div>
+            <div class="control-group {% if form.password.errors %} error {% endif %}">
+                <label class='control-label' for='{{form.password.auto_id}}'>{{form.password.label}}</label>
+                <div class='controls'>
+                    {{form.password}}
+                    <span class='help-inline'>{{form.password.errors.0}}</span>
+                </div>
+            </div>
+            {% csrf_token %}
+            <p>
+                <button type='submit' class="button yellow fl">Sign up &nbsp;<i class="icon-chevron-right"></i></button>
+            </p>
+        </form>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='span12'>
+        <p>
+        Already have an account?. <a href='{% url 'accounts:login' %}'>Login now</a>.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

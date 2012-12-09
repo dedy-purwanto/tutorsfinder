@@ -30,7 +30,7 @@ class LoginForm(forms.Form):
 
         if email and len(email) > 0:
             user = self.get_user()
-            if user.check_password(password):
+            if user and not user.check_password(password):
                 raise forms.ValidationError("Password is not valid")
 
         return password

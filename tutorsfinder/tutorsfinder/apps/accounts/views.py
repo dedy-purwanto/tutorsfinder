@@ -13,7 +13,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         user = form.save()
-        user = authenticate(username=form.user.username, password=form.data['password'])
+        user = authenticate(username=user.username, password=form.data['password'])
         if user is not None:
             login(self.request, user)
             return redirect(self.get_success_url())
@@ -29,7 +29,7 @@ class RegisterView(FormView):
 
     def form_valid(self, form):
         user = form.save()
-        user = authenticate(username=form.user.username, password=form.data['password'])
+        user = authenticate(username=user.username, password=form.data['password'])
         if user is not None:
             login(self.request, user)
             return redirect(self.get_success_url())

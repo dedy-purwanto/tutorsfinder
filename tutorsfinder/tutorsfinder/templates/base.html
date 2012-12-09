@@ -55,7 +55,7 @@
                         {% for page in flatpages %}
                         <li class=""><a href="{{page.url}}" title="{{page.title}}">{{page.title}}</a></li>
                         {% endfor %}
-                        <li class="{% block nav-login %}{% endblock %}"><a href="" title="Login">Login</a></li>
+                        <li class="{% block nav-login %}{% endblock %}"><a href="{% url 'accounts:login' %}" title="Login">Login</a></li>
                     </ul>
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
