@@ -1,0 +1,54 @@
+[
+    {
+        "model": "references.emailtemplate",
+        "pk": 1,
+        "fields": {
+            "name": "Admin new user notification",
+            "subject": "New user has been registered",
+            "template": "-",
+            "slug": "admin-new-user-notification",
+            "template_html": "New user has been registered: user: {{user}}, pk: {{user.pk}}",
+            "date_created": "2012-12-01 00:00:00",
+            "date_modified": "2012-12-01 00:00:00"
+        }
+    },
+    {
+        "model": "references.emailtemplate",
+        "pk": 2,
+        "fields": {
+            "name": "Contact tutor",
+            "subject": "You just received a message",
+            "template": "-",
+            "slug": "contact-tutor",
+            "template_html": "Hey there, somebody just sent a message, below:<br />br /> email: {{message.email}}<br /> message: {{message.content|linebreaks}}",
+            "date_created": "2012-12-01 00:00:00",
+            "date_modified": "2012-12-01 00:00:00"
+        }
+    },
+    {
+        "model": "references.emailtemplate",
+        "pk": 3,
+        "fields": {
+            "name": "Forgot Password",
+            "subject": "We have reset your password upon your request",
+            "template": "-",
+            "slug": "forgot-password",
+            "template_html": "weh have reset your password, here is your new password: {{new_password}}",
+            "date_created": "2012-12-01 00:00:00",
+            "date_modified": "2012-12-01 00:00:00"
+        }
+    },
+    {
+        "model": "references.emailtemplate",
+        "pk": 4,
+        "fields": {
+            "name": "Welcome and validation",
+            "subject": "Welcome!, please validate your account",
+            "template": "-",
+            "slug": "welcome-and-validation",
+            "template_html": "Click this url to validate your account: {{validation_url}}",
+            "date_created": "2012-12-01 00:00:00",
+            "date_modified": "2012-12-01 00:00:00"
+        }
+    }
+]
