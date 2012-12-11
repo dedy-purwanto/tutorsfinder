@@ -21,10 +21,15 @@ class Area(models.Model):
 class Subject(models.Model):
 
     title = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=0)
 
     def __unicode__(self):
         return "%s" % self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Subject, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['order', 'title']
@@ -33,7 +38,12 @@ class Subject(models.Model):
 class Level(models.Model):
 
     title = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Level, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s" % self.title

@@ -81,14 +81,14 @@
         <strong>Teaching Subjects</strong><br />
         <ul class='tags'>
             {% for teaching_subject in object.teaching_subjects.all %}
-                <li><a href='#'>{{teaching_subject.subject.title}}</a></li>
+                <li><a href='{% url 'tutors:list_by_subject' teaching_subject.subject.slug %}'>{{teaching_subject.subject.title}}</a></li>
             {% endfor %}
         </ul>
         <hr />
         <strong>Teaching Levels</strong><br />
         <ul class='tags blue'>
             {% for teaching_level in object.teaching_levels.all %}
-                <li><a href='#'>{{teaching_level.level.title}}</a></li>
+                <li><a href='{% url 'tutors:list_by_level' teaching_level.level.slug %}'>{{teaching_level.level.title}}</a></li>
             {% endfor %}
         </ul>
 

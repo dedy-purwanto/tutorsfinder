@@ -4,6 +4,9 @@ from django.http import Http404
 from django.contrib.auth.models import User
 
 from messages.forms import MessageForm
+from home.views import HomeView
+
+from references.models import Subject, Level
 
 
 class TutorDetailView(DetailView):
@@ -39,4 +42,51 @@ class TutorDetailView(DetailView):
 
         return context
 
+
+class ListBySubjectView(HomeView):
+
+    template_name = 'tutors/list_by_subject.html'
+
+    def get_subject(self):
+        slug = self.kwargs['slug']
+        try:
+            subject = Subject.objects.get(slug=slug)
+            return subject
+        except Subject.DoesNotExist:
+            raise Http404()
+
+    def filter_tutors(self):
+        tutors = super(ListBySubjectView, self).filter_tutors()
+        subject = self.get_subject()
+        tutors = tutors.filter(teaching_subjects__subject=subject)
+        return tutors
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ListBySubjectView, self).get_context_data(*args, **kwargs)
+        context['subject'] = self.get_subject()
+        return context
+
+
+class ListByLevelView(HomeView):
+
+    template_name = 'tutors/list_by_level.html'
+
+    def get_level(self):
+        slug = self.kwargs['slug']
+        try:
+            level = Level.objects.get(slug=slug)
+            return level
+        except Level.DoesNotExist:
+            raise Http404()
+
+    def filter_tutors(self):
+        tutors = super(ListByLevelView, self).filter_tutors()
+        level = self.get_level()
+        tutors = tutors.filter(teaching_levels__level=level)
+        return tutors
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ListByLevelView, self).get_context_data(*args, **kwargs)
+        context['level'] = self.get_level()
+        return context
 
