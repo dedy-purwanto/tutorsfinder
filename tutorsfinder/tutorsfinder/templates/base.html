@@ -60,7 +60,7 @@
                             <li class="{% block nav-login %}{% endblock %}"><a href="{% url 'login' %}" title="Login">Login</a></li>
                             <li class="button small yellow{% block nav-register %}{% endblock %}"><a href="{% url 'accounts:register' %}" title="Register"><strong>Sign up as a Tutor</strong></a></li>
                         {% else %}
-                            <li class=""><a href="{% url 'tutors:detail' user.pk user.details.name_slug %}" title="View Public Profile">Public Profile</a></li>
+                            <li class=""><a href="{% url 'tutors:detail' user.pk %}" title="View Public Profile">Public Profile</a></li>
                             <li class="{% block nav-dashboard %}{% endblock %}"><a href="{% url 'accounts:dashboard' %}" title="Dashboard">Dashboard</a></li>
                             <li class="{% block nav-logout %}{% endblock %}"><a href="{% url 'logout' %}" title="Logout">Logout</a></li>
                         {% endif %}
@@ -112,6 +112,20 @@
                         
                     </p>
                 </div>
+                <div class="span4 newsletter">
+                    &nbsp;
+                    {% comment %}
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our monthly newsletter and be the first to know about our news and special deals!</p>
+                    <img class="ajax-loader" src="img/ajax-loader.gif" alt="" />
+                    <form method="post" id="newsletter-form">
+                        <input type="text" placeholder="Enter your E-mail" name="subscribe" />
+                        <input type="hidden" name="bot" /><!-- SPAM protection -->
+                        <button type="submit" class="icon-ok" id="newsletter-subscribe" ></button>
+                    </form>
+                    {% endcomment %}
+                </div> 
+
                 <div class="span4 social-networks">
                     <h3>Find us elsewhere</h3>
                     <p>
@@ -122,16 +136,6 @@
                         <a class="social-network pinterest"></a>
                     </p>
                 </div>
-                <div class="span4 newsletter">
-                    <h3>Newsletter</h3>
-                    <p>Subscribe to our monthly newsletter and be the first to know about our news and special deals!</p>
-                    <img class="ajax-loader" src="img/ajax-loader.gif" alt="" />
-                    <form method="post" id="newsletter-form">
-                        <input type="text" placeholder="Enter your E-mail" name="subscribe" />
-                        <input type="hidden" name="bot" /><!-- SPAM protection -->
-                        <button type="submit" class="icon-ok" id="newsletter-subscribe" ></button>
-                    </form>
-                </div> 
             </div> <!-- end .row -->		
         </div> <!-- end .container -->
     </footer><!-- end #footer -->

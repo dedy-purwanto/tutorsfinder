@@ -89,6 +89,8 @@ class LoginForm(forms.Form):
 
 class RegisterForm(LoginForm):
 
+    name = forms.CharField()
+
     def clean_email(self, *args, **kwargs):
         email = self.data['email']
 
@@ -106,9 +108,11 @@ class RegisterForm(LoginForm):
 
     def save(self, *args, **kwrgs):
         email = self.cleaned_data['email']
+        name = self.cleaned_data['name']
         password = self.cleaned_data['password']
         user = User.objects.create_user(email[:29], email, password)
         user.save()
+        user.details.set_name(name)
         return user
 
 
@@ -179,6 +183,7 @@ class UpdatePasswordForm(forms.Form):
 class PersonalInformationForm(forms.ModelForm):
 
     full_name = forms.CharField(max_length=255)
+    street = forms.CharField(widget=forms.widgets.Textarea(attrs={'rows':'3'}))
 
     def __init__(self, *args, **kwargs):
         super(PersonalInformationForm, self).__init__(*args, **kwargs)
@@ -196,7 +201,7 @@ class PersonalInformationForm(forms.ModelForm):
     class Meta:
 
         model = PersonalInformation
-        exclude = ('user', 'longitude', 'latitude', 'enabled',)
+        exclude = ('user', 'longitude', 'latitude', 'enabled','post_code')
 
 
 class TeachingExperienceForm(forms.ModelForm):

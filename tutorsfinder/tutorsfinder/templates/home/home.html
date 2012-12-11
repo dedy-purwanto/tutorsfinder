@@ -6,6 +6,24 @@
 {% block content %}
 <div class="hero-unit">
     <h1 align='center'>Find great home tuition teachers near you.</h1> 
+    <div class='span12'>
+        <div class='span5'>
+            &nbsp;
+            {% if page_prev %}
+            <a href='{% url 'home:home' %}?page={{page_prev}}&label={{request.GET.label}}&subject={{request.GET.subject}}' class=''><i class="icon-chevron-left"></i>&nbsp;Prevous</a>
+            {% endif %}
+        </div>
+        <div class='span6'>
+            <div class='pull-right'>
+            {% if page_next %}
+            <a href='{% url 'home:home' %}?page={{page_next}}&label={{request.GET.label}}&subject={{request.GET.subject}}' class=''>Next&nbsp;<i class="icon-chevron-right"></i></a>
+            {% endif %}
+        </div>
+        </div>
+        <br />
+        <hr />
+
+    </div>
 </div>
 
 <hr />
@@ -19,7 +37,7 @@
 
                 <div class="thumbnail link">
                     <!-- image -->
-                    <a href="{% url 'tutors:detail' tutor.pk tutor.details.name_slug %}" title="">
+                    <a href="{% url 'tutors:detail' tutor.pk %}" title="">
                         {% if not tutor.details.picture %}
                             <img src="http://placehold.it/298x186" alt="">
                         {% else %}

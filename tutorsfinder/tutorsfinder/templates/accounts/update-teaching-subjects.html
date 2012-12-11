@@ -10,14 +10,15 @@
 
 {% block form-content %}
 <form class='form-horizontal' method='post' action='' enctype="multipart/form-data" >
+
     <div class="span10">
-        <h4>Levels</h4>
-        {% for levels in levels_columns %}
+        <h4>Subjects</h4>
+        {% for subjects in subjects_columns %}
             <div class='span2'>
-                {% for level in levels %}
+                {% for subject in subjects %}
                 <label>
-                    <input type='checkbox' name='levels' value='{{level.pk}}' {% if level.checked %} checked {% endif %}>
-                    {{level.title}}
+                    <input type='checkbox' name='subjects' value='{{subject.pk}}' {% if subject.checked %} checked {% endif %}>
+                    {{subject.title}}
                 </label>
                 {% endfor %}
             </div>
@@ -28,13 +29,13 @@
     </div>
 
     <div class="span10">
-        <h4>Subjects</h4>
-        {% for subjects in subjects_columns %}
+        <h4>Levels</h4>
+        {% for levels in levels_columns %}
             <div class='span2'>
-                {% for subject in subjects %}
+                {% for level in levels %}
                 <label>
-                    <input type='checkbox' name='subjects' value='{{subject.pk}}' {% if subject.checked %} checked {% endif %}>
-                    {{subject.title}}
+                    <input type='checkbox' name='levels' value='{{level.pk}}' {% if level.checked %} checked {% endif %}>
+                    {{level.title}}
                 </label>
                 {% endfor %}
             </div>
