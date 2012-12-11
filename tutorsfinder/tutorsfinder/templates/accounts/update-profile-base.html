@@ -2,15 +2,23 @@
 {% load url from future %}
 
 {% block content %}
-<div class="tabbable">
+<div class="services">
     <ul class="nav nav-tabs">
-        <li><a href="{% url 'accounts:update_personal_information' %}" class="btn btn-large {% block nav-profile-personal-information %}{% endblock %}">1. Personal Information</a></li>
-        <li><a href="{% url 'accounts:update_teaching_experience' %}" class="btn btn-large {% block nav-profile-teaching-experience %}{% endblock %}">2. Teaching Experience</a></li>
-        <li><a href="{% url 'accounts:update_teaching_subjects' %}" class="btn btn-large {% block nav-profile-teaching-subjects %}{% endblock %}">3. Teaching Subjects</a></li>
-        <li><a href="{% url 'accounts:update_education_background' %}" class="btn btn-large {% block nav-profile-educational-background %}{% endblock %}">4. Educational Background</a></li>
+        <li class="{% block nav-profile-personal-information %}{% endblock %}">
+            <a href="{% url 'accounts:update_personal_information' %}" >1<h3>Personal Information</h3></a>
+        </li>
+        <li class="{% block nav-profile-teaching-experience %}{% endblock %}">
+        <a href="{% url 'accounts:update_teaching_experience' %}" >2<h3>Teaching Experience</h3></a>
+        </li>
+        <li class="{% block nav-profile-teaching-subjects %}{% endblock %}">
+            <a href="{% url 'accounts:update_teaching_subjects' %}" >3 <h3>Teaching Subjects</h3></a>
+        </li>
+        <li class="{% block nav-profile-educational-background %}{% endblock %}">
+            <a href="{% url 'accounts:update_education_background' %}" >4 <h3>Educational Background</h3></a>
+        </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane in active">
+        <div class="tab-pane active">
             <div class="row">
                 <div class="span10">
                     <div class='hero-unit'>

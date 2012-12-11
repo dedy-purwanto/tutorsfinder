@@ -2110,7 +2110,8 @@ input.animated:focus {
 	margin:1em 0 0;
 	padding:0;
 	width:100%;
-	font-size: 0;
+	/*font-size: 0;*/
+    font-style:italic;
 }
 .services li {
 	position:relative;
@@ -2126,7 +2127,7 @@ input.animated:focus {
 	padding:10px 20px;
 	margin:0;
 	background:#f8f8f8;
-	width:20%;
+	width:25%;
 	-webkit-transition:background-color 0.2s;
 	-moz-transition:background-color 0.2s;
 	-o-transition:background-color 0.2s;
@@ -2138,6 +2139,20 @@ input.animated:focus {
 	margin:0;
 	background:transparent!important;
 	border:none!important;
+    color:#E84E39;
+    font-size:18px;
+    font-weight:bold;
+}
+.services li a h3{
+    font-size:14px;
+    color:#E84E39;
+    font-weight:bold;
+}
+.services > .nav-tabs > li.active > a {
+    color:#000;
+}
+.services > .nav-tabs > li.active > a > h3 {
+    color:#000;
 }
 .services li:first-child {
 	border-left:1px solid #ccc;
