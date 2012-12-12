@@ -182,6 +182,8 @@ LOGGING = {
     }
 }
 
+APPEND_SLASH = True
+
 #Email settings
 EMAIL_BCC_LIST = ['kecebongsoft@gmail.com',]
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
