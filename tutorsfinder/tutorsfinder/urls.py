@@ -20,9 +20,8 @@ urlpatterns = patterns('',
     url(r'^messages/', include('messages.urls', namespace='messages')),
 
     url(r'^admin/', include(admin.site.urls)),
-)
-urlpatterns += patterns('django.contrib.flatpages.views',
-    (r'^(?P<url>.*)$', 'flatpage'),
+
+    url(r'', include('django.contrib.flatpages.urls')),
 )
 
 if settings.DEBUG:
