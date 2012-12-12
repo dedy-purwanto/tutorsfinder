@@ -183,7 +183,7 @@ LOGGING = {
 }
 
 #Email settings
-EMAIL_BCC_LIST = ('kecebongsoft@gmail.com',)
+EMAIL_BCC_LIST = ['kecebongsoft@gmail.com',]
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/mail'
 EMAIL_PRODUCTION_MODE = False
