@@ -20,7 +20,7 @@ class EmailMessage(EmailMultiAlternatives):
     def __init__(self, *args, **kwargs):
         args_list = list(args)
 
-        bcc = getattr(settings, 'BCC_LIST', None)
+        bcc = getattr(settings, 'EMAIL_BCC_LIST', None)
 
         # if bcc email is given, get it then extend instead of replacing it
         if bcc is not None:
