@@ -31,7 +31,7 @@ class SendMessageView(FormView):
         return redirect(self.get_success_url(user))
 
     def get_success_url(self, user):
-        return reverse("tutors:detail", args=[user.pk, user.details.name_slug])
+        return reverse("tutors:detail", args=[user.pk])
 
     def get_context_data(self, *args, **kwargs):
         context = super(SendMessageView, self).get_context_data(*args, **kwargs)
