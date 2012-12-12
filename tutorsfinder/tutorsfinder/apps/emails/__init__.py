@@ -59,7 +59,7 @@ def send_using_template(email_template, context, user_email, bcc=[]):
         'Reply-To': reply_to,
     }
 
-    email = EmailMessage(subject, body, from_email, to_email, bcc=bcc, headers=headers)
+    email = EmailMessage(subject, body, from_email, to_email, bcc, headers=headers)
     if template_html:
         email.attach_alternative(body_html, "text/html")
 
