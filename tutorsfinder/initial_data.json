@@ -20,7 +20,7 @@
             "subject": "You just received a message",
             "template": "-",
             "slug": "contact-tutor",
-            "template_html": "Hey there, somebody just sent a message, below:<br />br /> email: {{message.email}}<br /> message: {{message.content|linebreaks}}",
+            "template_html": "Hey there, somebody just sent a message, below:<br /><br /> email: {{message.email}}<br /> message: {{message.content|linebreaks}}",
             "date_created": "2012-12-01 00:00:00",
             "date_modified": "2012-12-01 00:00:00"
         }
