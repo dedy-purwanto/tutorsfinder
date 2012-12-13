@@ -32,7 +32,8 @@
         <div class='hero-unit'>
             <h1>{{object.details.name}}</h1>
             {% if object.details.state and object.details.area %}
-            <h3>{{object.details.state}}, {{object.details.area}}</h3>
+            <h2>{{object.details.state}}, {{object.details.area}}</h2>
+            <h3>RM {{object.details.hourly_rate}} / hour</h3>
             {% endif %}
         </div>
 
